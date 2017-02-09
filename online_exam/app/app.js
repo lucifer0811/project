@@ -12,4 +12,3 @@ app.config(['$routeProvider',
       redirectTo: '/'
     });;
 }]);
-    

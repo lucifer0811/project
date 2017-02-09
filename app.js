@@ -48,7 +48,7 @@ app.get('/api', function (req, res) {
   res.send('Hello World!');
 });
 
-app.get('/api/question', function (req, res) {
+app.get('/api/questions', function (req, res) {
 
   pool.query('SELECT * FROM question', function(err, rows, fields) {
     if (err) throw err;
