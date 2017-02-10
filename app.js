@@ -8,9 +8,9 @@ var mysql = require('mysql');
 
 var pool = mysql.createPool({
   connectionLimit : 10,
-  host : 'localhost',
-  user : 'root',
-  password : '',
+  host : '128.199.145.205',
+  user : 'dev',
+  password : 'dev123',
   database : 'online_exam'
 });
 
@@ -48,13 +48,21 @@ app.get('/api', function (req, res) {
   res.send('Hello World!');
 });
 
-app.get('/api/questions', function (req, res) {
+app.get('/api/categories', function (req,res) {
 
-  pool.query('SELECT * FROM question', function(err, rows, fields) {
+  pool.query('SELECT * FROM category', function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
-});
+})
+
+app.get('/api/questions', function (req,res) {
+
+  pool.query('SELECT * FROM question INNER JOIN answer on answer.question_id = question.id', function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+})
 
 app.post('/api/categories', function (req, res) {
   console.log(req.body.id);

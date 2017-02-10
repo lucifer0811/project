@@ -1,0 +1,12 @@
+<h1>Question</h1>
+
+<!-- {{questions}} -->
+<table>
+	<tr ng-repeat="c in questions | filter:filterQtuestion " id="{{c.id}}">
+	  <td>{{c.id}}</td>
+	  <td>{{c.name}}</td>
+	  <td>{{c.descriptions}}</td>
+	  <td style="width:100px">
+	  </td>
+	 </tr>
+</table>
