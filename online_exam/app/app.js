@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate']);
+var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate','ngTable']);
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -6,14 +6,14 @@ app.config(['$routeProvider',
     when('/', {
       title: 'List questions',
       templateUrl: 'html/questions/question.html',
-      controller: 'questionCtrl'
+      controller: 'questionCtrl',
     })
-    when('/categories', {
-      title: 'List categories',
-      templateUrl: 'html/categoies/category.html',
-      controller: 'categoryCtrl'
+    .when('/addQuestion',{
+      templateUrl: 'html/test.html',
+      templateUrl: 'html/questions/add_question.html',
+      controller: 'questionCtrl',
     })
     .otherwise({
       redirectTo: '/'
-    });;
+    });
 }]);
