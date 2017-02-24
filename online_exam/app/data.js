@@ -20,6 +20,11 @@ app.factory("Data", ['$http', '$location',
                 return results.data;
             });
         };
+        obj.patch = function(q, object){
+            return $http.put(serviceBase + q, object).then(function (results) {
+                return results.data;
+            });
+        }
         obj.delete = function (q) {
             return $http.delete(serviceBase + q).then(function (results) {
                 return results.data;

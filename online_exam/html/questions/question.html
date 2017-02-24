@@ -2,28 +2,15 @@
 <table ng-table="vm.tableParams" class="table" show-filter="true">
 	<tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
     <tr ng-repeat="c in questions">
-
         <td title="'ID'" filter="{ name: 'text'}" sortable="'name'">
             {{c.id}}</td>
         <td title="'CONTENT'" filter="{ age: 'number'}" sortable="'age'">
-            {{c.content}}</td>
+        <a href="" ng-click="detail(c);">{{c.content}}</a>
+            </td>
+		<td><button type="button" class="btn btn-danger fa fa-plus" ng-click="open(c);">Edit</button></td>
     </tr>
+
 </table>
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(question);">&nbsp;Add New Question</button>
 <div>
-	<a href="#addQuestion">Thêm câu hỏi mới</a>
 </div>
-<!-- <table>
-	<tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
-	<tr ng-repeat="c in questions ">
-	{{questions.length}}
-	  <td>{{c.id}}</td>
-	  <td><a href="#index"></a></td>
-	  <td>{{c.number_answer}}</td>
-	  <td>{{c.number_question_true}}</td>>
-	  <td style="width:100px">    
-
-
-
-	  </td>
-	 </tr>
-</table> -->
