@@ -13,6 +13,11 @@ app.config(['$routeProvider',
       templateUrl: 'html/questions/add_question.html',
       controller: 'questionCtrl',
     })
+    .when('/categories', {
+      title: 'List Category',
+      templateUrl: 'html/categories/category.html',
+      controller: 'categoryCtrl',
+    })
     .otherwise({
       redirectTo: '/'
     });
