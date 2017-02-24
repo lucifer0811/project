@@ -1,15 +1,18 @@
 <h1>Categories</h1>
-
-<!-- {{questions}} -->
-<table>
-  <tr ng-repeat="c in questions | filter:filterQtuestion " id="{{c.id}}">
-    <td>{{c.id}}</td>
-    <td>{{c.content}}</td>
-    <td>{{c.number_answer}}</td>
-    <td>{{c.number_question_true}}</td>
-    <td>{{c.category_id}}</td>
-    <td>{{c.section_id}}</td>
-    <td style="width:100px">
-    </td>
-   </tr>
-</table>
+<div class="row">
+  <div class="col-md-3">
+    <button type="button" class="btn btn-danger fa fa-plus" ng-click="#">&nbsp;Add New Product</button>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-8">
+    <table class="table table-striped">
+      <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+      <tr ng-repeat="c in categories">
+        <td>{{c.id}}</td>
+        <td>{{c.name}}</td>
+        <td>{{c.descriptions}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
