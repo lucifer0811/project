@@ -32,7 +32,7 @@ app.get('/api', function (req, res) {
 
 app.get('/api/categories', function (req,res) {
 
-  pool.query('SELECT * FROM question INNER JOIN category ON question.category_id = category.id', function(err, rows, fields) {
+  pool.query('SELECT * FROM category ', function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });

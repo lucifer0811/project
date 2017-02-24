@@ -5,9 +5,7 @@ app.controller('questionCtrl', function ($scope, $modal, $filter, Data){
     });
 
     $scope.columns = [
-                    {text:"ID",predicate:"id",sortable:true,dataType:"number"},
-                    {text:"Content",predicate:"content",sortable:true},
-                    
-                   
-                ];
+      {text:"ID",predicate:"id",sortable:true,dataType:"number"},
+      {text:"Content",predicate:"content",sortable:true},
+    ];
 })
