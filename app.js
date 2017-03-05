@@ -38,18 +38,38 @@ app.get('/api/categories', function (req,res) {
   });
 })
 
-app.get('/api/questions', function (req,res) {
 
+
+app.post('/api/categories', function (req, res) {
+  console.log(req.body.id);
+
+  pool.query('insert into category SET ?',[req.body], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.get('/api/questions', function (req,res) {
   pool.query('SELECT * FROM question ', function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 })
 
-app.post('/api/categories', function (req, res) {
-  console.log(req.body.id);
 
-  pool.query('insert into category SET ?',[req.body], function(err, rows, fields) {
+app.post('/api/addQuestions', function (req, res) {
+  console.log(req.body);
+  req.body.answers = JSON.stringify(req.body.answers); 
+  pool.query('insert into question SET ?',[req.body], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.put('/api/editQuestions', function (req, res) {
+  req.body.answers = JSON.stringify(req.body.answers); 
+  console.log(req.body);
+  pool.query('UPDATE question SET ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });

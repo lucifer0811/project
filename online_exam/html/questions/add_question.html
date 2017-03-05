@@ -1,1 +1,48 @@
 <h1>Thêm câu hỏi</h1>
+ <md-content layout-padding>
+    <div ng-if="question.id == null">
+      
+    </div>
+    <div>
+      
+      <form name="userForm">
+
+        <div layout-gt-sm="row">
+          <md-input-container class="md-block" flex-gt-sm>
+            <label>Nội dung câu hỏi</label>
+            <textarea ng-model="question.content"></textarea> 
+          </md-input-container>   
+        </div>
+        <div>
+           <label>Category</label>
+          <select class="form-control select_question"
+                  id="category"
+                  name="category"
+                  ng-model="question.category_id">
+            <option ng-repeat="category in categories" ng-selected="question.category_id" value="{{category.id}}" >{{category.name}}</option>
+          </select>
+        </div>
+        <div ng-repeat="answer in question.answers">
+          <div layout-gt-sm="row">
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>{{ $index + 1 }}</label>
+              <input ng-model="answer.content">
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-sm>
+              <label>Phần trăm điểm</label>
+              <input type="number" ng-model="answer.grade"> 
+            </md-input-container>
+          </div>
+        </div>
+        <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="saveQuestion();"
+                                class="btn btn-sm btn-primary"
+                                type="submit">
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+                        </button>
+                    </div>
+                </form-element>
+  </md-content>
