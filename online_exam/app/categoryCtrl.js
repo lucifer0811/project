@@ -5,7 +5,7 @@ app.controller('categoryCtrl', function ($scope, $modal, $filter, Data) {
         $scope.categories = data;
     });
 
-    $scope.open = function (p,size) {
+    $scope.edit = function (p,size) {
       var modalInstance = $modal.open({
         templateUrl: 'html/categories/categoryEdit.html',
         controller: 'categoryEditCtrl',
@@ -42,7 +42,7 @@ app.controller('categoryEditCtrl', function ($scope, $modalInstance, item, Data)
     $modalInstance.dismiss('Close');
   }
 
-  // $scope.title = (item.id > 0) ? 'Edit Category' : 'Add Category';
+  $scope.title = 'Edit Category';
   $scope.buttonText = 'Update Category';
   var original = item;
   $scope.isClean = function(){
@@ -50,28 +50,14 @@ app.controller('categoryEditCtrl', function ($scope, $modalInstance, item, Data)
   }
 
   $scope.saveCategory = function(category) {
-    category.id = $scope.id;
-    if (category.id > 0){
-      Data.put('category/'+category.id, category).then(function (result){
-        if (result.status != 'error'){
-          var x = angular.copy(category);
-          x.save = 'update';
-          $modalInstance.close(x);
-        }else{
-          console.log(result);
-        }
-      });
-    }else{
-      Data.post('categories', category).then(function(result){
-        if(result.status != 'error'){
-          var x = angular.copy(category);
-          s.save = 'insert';
-          x.id = result.data;
-          $modalInstance.close(x);
-        }else{
-          console.log(result);
-        }
-      })
-    }
+    Data.put('categories/'+category.id, $scope.category).then(function (result){
+      if (result.status != 'error'){
+        var x = angular.copy(category);
+        x.save = 'update';
+        $modalInstance.close(x);
+      }else{
+        console.log(result);
+      }
+    });
   }
 });
