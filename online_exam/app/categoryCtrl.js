@@ -17,18 +17,29 @@ app.controller('categoryCtrl', function ($scope, $modal, $filter, Data) {
         }
       });
       modalInstance.result.then(function(selectedObject) {
-        if(selectedObject.save == "insert"){
-          $scope.cayegories.push(selectedObject);
-          $scope.categories = $filter('orderBy')($scope.categories, 'id', 'reverse');
-        }else if(selectedObject.save == "update"){
-          p.name = selectedObject.name;
-          p.descriptions = selectedObject.descriptions;
+        p.name = selectedObject.name;
+        p.descriptions = selectedObject.descriptions;
+      });
+    };
+
+    $scope.open = function(p, size){
+      var modalInstance = $modal.open({
+        templateUrl: 'html/categories/categoryNew.html',
+        controller: 'categoryNewCtrl',
+        size: size,
+        resolve: {
+          item: function() {
+            return p;
+          }
         }
+      });
+      modalInstance.result.then(function(selectedObject){
+        $scope.categories.push(selectedObject);
+        $scope.categories = $filter('orderBy')($scope.categories, 'id', 'reverse');
       });
     };
 
     $scope.columns = [
-      {text:"ID",predicate:"id",sortable:true,dataType:"number"},
       {text:"Name",predicate:"name",sortable:true},
       {text:"Descriptions",predicate:"descriptions",sortable:true},
       {text:"Action",predicate:"",sortable:false},
@@ -37,7 +48,6 @@ app.controller('categoryCtrl', function ($scope, $modal, $filter, Data) {
 
 app.controller('categoryEditCtrl', function ($scope, $modalInstance, item, Data){
   $scope.category = angular.copy(item);
-
   $scope.cancel = function() {
     $modalInstance.dismiss('Close');
   }
@@ -55,6 +65,26 @@ app.controller('categoryEditCtrl', function ($scope, $modalInstance, item, Data)
         var x = angular.copy(category);
         x.save = 'update';
         $modalInstance.close(x);
+      }else{
+        console.log(result);
+      }
+    });
+  }
+});
+
+app.controller('categoryNewCtrl', function($scope, $modalInstance, $http, Data){
+  $scope.cancel = function() {
+    $modalInstance.dismiss('Close');
+  }
+  $scope.title = 'New Category';
+  $scope.buttonText = 'Add Category';
+  $scope.addNewCategory = function(category) {
+    Data.post('categories', category).then(function (result) {
+      if(result.status != 'error'){
+          var x = angular.copy(category);
+          x.save = 'insert';
+          x.id = result.data;
+          $modalInstance.close(x);
       }else{
         console.log(result);
       }

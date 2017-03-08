@@ -38,7 +38,6 @@ app.get('/api/categories', function (req,res) {
 })
 
 app.post('/api/categories', function (req, res) {
-  //console.log(req.body);
   pool.query('insert into category SET ?',[req.body], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
@@ -58,7 +57,6 @@ app.put('/api/categories/:category_id', function (req, res) {
     res.json(rows);
   });
 });
-
 
 app.post('/api/addQuestions', function (req, res) {
   console.log(req.body);
