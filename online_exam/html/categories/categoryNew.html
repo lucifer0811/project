@@ -6,23 +6,23 @@
 </div>
 <div class="modal-body">
   <form name="product_form" class="form-horizontal" role="form" novalidate ng-submit="addNewCategory(category)">
+    <div class="form-group">
+      <input type="text" class="form-control" name="name" placeholder="name" ng-model="category.name" focus/>
+    </div>
+    <div class="form-group">
+      <textarea class="form-control" name="descriptions" placeholder="DESCRIPTIONS" ng-model="category.descriptions"></textarea>
+    </div>
+    <div class="space"></div>
+    <div class="space-4"></div>
+    <div class="modal-footer">
       <div class="form-group">
-        <input type="text" class="form-control" name="name" placeholder="name" ng-model="category.name" focus/>
-      </div>
-      <div class="form-group">
-        <textarea class="form-control" name="descriptions" placeholder="DESCRIPTIONS" ng-model="category.descriptions"></textarea>
-      </div>
-      <div class="space"></div>
-      <div class="space-4"></div>
-      <div class="modal-footer">
-        <div class="form-group">
-          <div class="text-right">
-            <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
-            <button class="btn btn-sm btn-primary" type="submit">
-              <i class="ace-icon fa fa-check"></i>{{buttonText}}
-            </button>
-          </div>
+        <div class="text-right">
+          <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+          <button class="btn btn-sm btn-primary" type="submit">
+            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+          </button>
         </div>
       </div>
+    </div>
   </form>
 </div>

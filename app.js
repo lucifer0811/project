@@ -35,7 +35,7 @@ app.get('/api/categories', function (req,res) {
     if (err) throw err;
     res.json(rows);
   });
-})
+});
 
 app.post('/api/categories', function (req, res) {
   pool.query('insert into category SET ?',[req.body], function(err, rows, fields) {
@@ -49,7 +49,7 @@ app.get('/api/questions', function (req,res) {
     if (err) throw err;
     res.json(rows);
   });
-})
+});
 
 app.put('/api/categories/:category_id', function (req, res) {
   pool.query('UPDATE category SET ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields) {
@@ -71,6 +71,20 @@ app.put('/api/editQuestions', function (req, res) {
   req.body.answers = JSON.stringify(req.body.answers);
   console.log(req.body);
   pool.query('UPDATE question SET ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.get('/api/examies', function (req,res) {
+  pool.query('SELECT * FROM exam', function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.post('/api/examies', function(req, res){
+  pool.query('insert into exam SET ?',[req.body], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
