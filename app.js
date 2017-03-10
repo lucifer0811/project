@@ -90,6 +90,20 @@ app.post('/api/examies', function(req, res){
   });
 });
 
+app.get('/api/examies/:id/sections', function(req, res){
+  pool.query('SELECT * FROM section where exam_id = ?', req.params.id,  function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.post('/api/examies/:id/sections', function(req, res){
+  pool.query('insert into section SET ?',[req.body], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
