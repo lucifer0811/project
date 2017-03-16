@@ -18,6 +18,11 @@ app.config(['$routeProvider',
       templateUrl: 'html/examies/exam.html',
       controller: 'examCtrl',
     })
+    .when('/examies/:id/sections',{
+      title: "Exam",
+      templateUrl: 'html/sections/section.html',
+      controller: 'sectionCtrl',
+    })
     .otherwise({
       redirectTo: '/home'
     });
