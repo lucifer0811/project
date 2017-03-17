@@ -1,4 +1,5 @@
 app.controller('examCtrl', function($scope, $filter, $modal, Data){
+  $scope.exam = {};
   Data.get('examies').then(function(data){
     $scope.examies = data;
   });
@@ -17,6 +18,14 @@ app.controller('examCtrl', function($scope, $filter, $modal, Data){
       $scope.examies.push(selectedObject);
       $scope.examies = $filter('orderBy')($scope.examies, 'id', 'reverse');
     });
+  };
+
+  $scope.deleteExam = function(exam){
+    if(confirm("Are you sure!!!!")){
+      Data.delete('examies/'+exam.id).then(function(result){
+        $scope.examies = _.without($scope.examies, _.findWhere($scope.examies, {id:exam.id}));
+      });
+    }
   };
 
   $scope.columns = [

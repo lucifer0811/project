@@ -1,49 +1,57 @@
 app.controller('categoryCtrl', function ($scope, $modal, $filter, Data) {
-    $scope.categories = {};
+  $scope.category = {};
 
-    Data.get('categories').then(function(data){
-        $scope.categories = data;
+  Data.get('categories').then(function(data){
+      $scope.categories = data;
+  });
+
+  $scope.edit = function (p,size) {
+    var modalInstance = $modal.open({
+      templateUrl: 'html/categories/categoryEdit.html',
+      controller: 'categoryEditCtrl',
+      size: size,
+      resolve: {
+        item: function () {
+          return p;
+        }
+      }
     });
+    modalInstance.result.then(function(selectedObject) {
+      p.name = selectedObject.name;
+      p.descriptions = selectedObject.descriptions;
+    });
+  };
 
-    $scope.edit = function (p,size) {
-      var modalInstance = $modal.open({
-        templateUrl: 'html/categories/categoryEdit.html',
-        controller: 'categoryEditCtrl',
-        size: size,
-        resolve: {
-          item: function () {
-            return p;
-          }
+  $scope.open = function(p, size){
+    var modalInstance = $modal.open({
+      templateUrl: 'html/categories/categoryNew.html',
+      controller: 'categoryNewCtrl',
+      size: size,
+      resolve: {
+        item: function() {
+          return p;
         }
-      });
-      modalInstance.result.then(function(selectedObject) {
-        p.name = selectedObject.name;
-        p.descriptions = selectedObject.descriptions;
-      });
-    };
+      }
+    });
+    modalInstance.result.then(function(selectedObject){
+      $scope.categories.push(selectedObject);
+      $scope.categories = $filter('orderBy')($scope.categories, 'id', 'reverse');
+    });
+  };
 
-    $scope.open = function(p, size){
-      var modalInstance = $modal.open({
-        templateUrl: 'html/categories/categoryNew.html',
-        controller: 'categoryNewCtrl',
-        size: size,
-        resolve: {
-          item: function() {
-            return p;
-          }
-        }
+  $scope.deleteCategory = function(category){
+    if(confirm("Are you sure!!!!")){
+      Data.delete('categories/'+category.id).then(function(result){
+        $scope.categories = _.without($scope.categories, _.findWhere($scope.categories, {id:category.id}));
       });
-      modalInstance.result.then(function(selectedObject){
-        $scope.categories.push(selectedObject);
-        $scope.categories = $filter('orderBy')($scope.categories, 'id', 'reverse');
-      });
-    };
+    }
+  };
 
-    $scope.columns = [
-      {text:"Name",predicate:"name",sortable:true},
-      {text:"Descriptions",predicate:"descriptions",sortable:true},
-      {text:"Action",predicate:"",sortable:false},
-    ];
+  $scope.columns = [
+    {text:"Name",predicate:"name",sortable:true},
+    {text:"Descriptions",predicate:"descriptions",sortable:true},
+    {text:"Action",predicate:"",sortable:false},
+  ];
 });
 
 app.controller('categoryEditCtrl', function ($scope, $modalInstance, item, Data){
