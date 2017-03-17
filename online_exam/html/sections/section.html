@@ -7,8 +7,8 @@
       <div class="row" id="section" ng-repeat="section in sections">
         <div class="col-md-3">Section {{$index + 1}}</div>
         <div class="col-md-3">Time: {{section.time_limit}} (minutes)</div>
-        <br/>
         <div class="dropdown question_section">
+          <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteSection(section);"></button>
           <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Question
           <span class="caret"></span></button>
           <ul class="dropdown-menu">

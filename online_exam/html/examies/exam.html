@@ -14,7 +14,8 @@
         <td>{{c.open_time}}</td>
         <td>{{c.close_time}}</td>
         <td>
-          <button type="button" class="btn btn-success btn-xs"><a href="#/examies/{{c.id}}/sections">Edit</a></button>
+          <button><a href="#/examies/{{c.id}}/sections">Edit</a></button>
+          <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteExam(c);"></button>
         </td>
       </tr>
     </table>

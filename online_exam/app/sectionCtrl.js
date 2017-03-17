@@ -1,5 +1,6 @@
 app.controller('sectionCtrl', function($scope, $routeParams ,$filter, $modal, Data){
   $scope.id_exam = $routeParams.id;
+  $scope.section = {};
 
   Data.get('examies/'+$routeParams.id+'/sections').then(function(data){
     $scope.sections = data;
@@ -20,6 +21,14 @@ app.controller('sectionCtrl', function($scope, $routeParams ,$filter, $modal, Da
       $scope.sections.push(selectedObject);
       $scope.sections = $filter('orderBy')($scope.sections, '-id', 'reverse');
     });
+  };
+
+  $scope.deleteSection = function(section){
+    if(confirm("Are you sure to remove the section")){
+      Data.delete('examies/'+$routeParams.id+'/sections/'+section.id).then(function(result){
+        $scope.sections = _.without($scope.sections, _.findWhere($scope.sections, {id:section.id}));
+      });
+    }
   };
 
   $scope.columns = [
