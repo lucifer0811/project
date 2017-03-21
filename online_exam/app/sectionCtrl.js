@@ -6,6 +6,36 @@ app.controller('sectionCtrl', function($scope, $routeParams ,$filter, $modal, Da
     $scope.sections = data;
   });
 
+  Data.get('questions').then(function(data){
+    $scope.questions = data;
+  });
+
+  $scope.showAllQuestion = function(p, size){
+    var modalInstance = $modal.open({
+      templateUrl: 'html/section_questions/questions.html',
+      controller: 'section_questionCtrl',
+      size: size,
+      resolve: {
+        item: function(){
+          return p;
+        }
+      }
+    });
+  };
+
+  $scope.addRandomQuestion = function(p, size){
+    var modalInstance = $modal.open({
+      templateUrl: 'html/section_questions/question_random.html',
+      controller: 'section_questionCtrl',
+      size: size,
+      resolve: {
+        item: function(){
+          return p;
+        }
+      }
+    });
+  };
+
   $scope.open = function(p, size){
     var modalInstance = $modal.open({
       templateUrl: 'html/sections/sectionNew.html',

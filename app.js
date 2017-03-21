@@ -37,6 +37,13 @@ app.get('/api/categories', function (req,res) {
   });
 });
 
+app.get('/api/categories/:id', function (req,res) {
+  pool.query('SELECT * FROM question where category_id = ?',req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
 app.post('/api/categories', function (req, res) {
   pool.query('insert into category SET ?',[req.body], function(err, rows, fields) {
     if (err) throw err;
@@ -58,12 +65,20 @@ app.put('/api/categories/:id', function (req, res) {
   });
 });
 
+// app.get('/api/categories/:id/questions', function(req, res){
+//   pool.query('select * from question where category_id = ?', req.params.id, function(err, rows, fields){
+//     if (err) throw err;
+//     res.json(rows);
+//   })
+// })
+
 app.delete('/api/categories/:id', function(req, res){
   pool.query('delete from category where id = ?', req.params.id, function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 });
+
 
 app.post('/api/addQuestions', function (req, res) {
   console.log(req.body);
@@ -120,6 +135,14 @@ app.post('/api/examies/:exam_id/sections', function(req, res){
 
 app.delete('/api/examies/:exam_id/sections/:id', function(req, res){
   pool.query('delete from section where id = ?', req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.post('/api/examies/:exam_id/sections/:id/section_questions', function(req, res){
+  console.log(req.body);
+  pool.query('insert into section_question set ?',[req.body], function(err, row, fields){
     if (err) throw err;
     res.json(rows);
   });
