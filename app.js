@@ -7,7 +7,7 @@ app.use(cors());
 var mysql = require('mysql');
 
 var pool = mysql.createPool({
-  connectionLimit : 10,
+  connectionLimit : 30,
   host : '128.199.145.205',
   user : 'dev',
   password : 'dev123',
