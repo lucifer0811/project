@@ -1,0 +1,47 @@
+<div class="horizontal-scroll">
+  <div class="form-group select-page-size-wrap ">
+    <label>Rows on page
+      <select class="form-control selectpicker show-tick" title="Rows on page" selectpicker
+              ng-model="smartTablePageSize" ng-options="i for i in [5,10,15,20,25]">
+      </select>
+    </label>
+  </div>
+  <table class="table" st-table="smartTableData">
+    <thead>
+    <tr class="sortable ">
+      <th class="table-id" st-sort="id" st-sort-default="true">#</th>
+      <th ng-repeat="c in columns" st-sort="{{c.predicate}}">{{c.text}}</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th><input st-search="firstName" placeholder="Search First Name" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="lastName" placeholder="Search Last Name" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="username" placeholder="Search Username" class="input-sm form-control search-input"
+                 type="search"/></th>
+      <th><input st-search="email" placeholder="Search Email" class="input-sm form-control search-input" type="search"/>
+      </th>
+      <th><input st-search="age" placeholder="Search Age" class="input-sm form-control search-input" type="search"/>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="c in questions">
+      <td class="table-id">{{c.id}}</td>
+      <td>{{c.content}}</td>
+      <td>
+        <button type="button" class="btn btn-danger fa fa-plus" ng-click="open(c);">Edit</button>
+      </td>
+    </tr>
+    </tbody>
+    <tfoot>
+    <tr>
+      <td colspan="6" class="text-center">
+        <div st-pagination="" st-items-by-page="smartTablePageSize" st-displayed-pages="5"></div>
+      </td>
+    </tr>
+    </tfoot>
+  </table>
+  <button type="button" class="btn btn-danger fa fa-plus" ng-click="open(question);">&nbsp;Add New Question</button>
+</div>

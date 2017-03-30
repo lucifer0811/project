@@ -114,6 +114,15 @@
                     <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
                   </select>
         </div>
+        <div>
+          <select  ng-change="numberAnswer()" ng-model="numberdd">
+            <option value="1">1 correct answer</option>
+            <option value="2">2 correct answer</option>
+            <option value="2">3 correct answer</option>    
+          </select>
+        </div>
+        
+
         <div ng-repeat="answer in question.answers">
           <div layout-gt-sm="row">
             <md-input-container class="md-block 6" flex-gt-sm>
