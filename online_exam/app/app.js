@@ -23,6 +23,14 @@ app.config(['$routeProvider',
       templateUrl: 'html/sections/section.html',
       controller: 'sectionCtrl',
     })
+    .when('/section_questions', {
+      title: "Question in Section",
+      controller: 'section_questionCtrl',
+    }).
+    when('/categories/:id/questions', {
+      title: "Question in Category",
+      controller: 'section_questionCtrl',
+    })
     .otherwise({
       redirectTo: '/home'
     });

@@ -1,0 +1,31 @@
+<button type="button" class="close" ng-click="cancel();">
+  <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+</button>
+<div class="modal-header">
+  <h3 class="modal-title">Questions</h3>
+</div>
+<div class="modal-body">
+  <div class="row select_category">
+    <select class="form-control" ng-model="category"
+      ng-options="item.name for item in categories" ng-change="update()">
+      <option value="">-- Select an option--</option>
+    </select>
+  </div>
+  <div class="row show_question">
+    <ul ng-repeat="question in questions">
+      <div class="row">
+        <li style="list-style-type: none">
+          <div class="col-md-9">
+            {{question.content}}
+          </div>
+          <div class="col-md-2" float="right">
+            <input type="checkbox" ng-model="check_question_id" ng-change="stateChanged(question)" />
+            <!-- <input type="checkbox"" ng-model="check_question" ng-change="stateChanged(question.id)" ng-true-value="'YES'" ng-false-value="'NO'" />
+             --> <!--  value="{{question.id}} -->
+          </div>
+        </li>
+      </div>
+    </ul>
+  </div>
+  <button type="button" class="btn btn-success pull-right" ng-click="submit()">&nbsp;Submit</button>
+</div>
