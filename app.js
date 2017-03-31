@@ -140,9 +140,9 @@ app.delete('/api/examies/:exam_id/sections/:id', function(req, res){
   });
 });
 
-app.post('/api/examies/:exam_id/sections/:id/section_questions', function(req, res){
+app.post('/api/section_questions', function(req, res){
   console.log(req.body);
-  pool.query('insert into section_question set ?',[req.body], function(err, row, fields){
+  pool.query('insert into section_question set ?',[req.body], function(err, rows, fields){
     if (err) throw err;
     res.json(rows);
   });
