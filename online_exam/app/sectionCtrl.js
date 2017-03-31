@@ -1,4 +1,4 @@
-app.controller('sectionCtrl', function($scope, $routeParams ,$filter, $modal, Data){
+app.controller('sectionCtrl', function($scope, $rootScope, $routeParams ,$filter, $modal, Data){
   $scope.id_exam = $routeParams.id;
   $scope.section = {};
 
@@ -23,7 +23,8 @@ app.controller('sectionCtrl', function($scope, $routeParams ,$filter, $modal, Da
     });
   };
 
-  $scope.addRandomQuestion = function(p, size){
+  $scope.addRandomQuestion = function(p,q, size){
+    $rootScope.id_section = q.id;
     var modalInstance = $modal.open({
       templateUrl: 'html/section_questions/question_random.html',
       controller: 'section_questionCtrl',

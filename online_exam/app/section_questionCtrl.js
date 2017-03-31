@@ -5,12 +5,6 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
 
   $scope.category_id_in_form;
 
-  $scope.questions = {};
-
-  $scope.number_question_random;
-
-  $scope.list_questions_chooes = [];
-
   function create_ids_section_question(n, m){
     var a = [];
     while(a.length < n) {
@@ -26,25 +20,30 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
   }
 
   $scope.push_question_section = function() {
-    var list_question_ids = []; // chu khai bao scope cua no chi o
-    debugger;
-    Data.get('categories/'+$scope.category_id_in_form).then(function(d){
-      debugger;
-      var list_questions = d;
-      list_question_ids = d;
-      console.log($scope.number_question_random);
-      console.log(list_question_ids);
+    Data.get('categories/'+$scope.category_id_in_form).then(function(data){
+      var section_id = $rootScope.id_section;
+      var b = [];
+      var list_question_in_category = data;
+      var number_question_random = $scope.number_question_random;
+      b = create_ids_section_question(number_question_random, list_question_in_category.length );
+      var list_category_ids = b.map(function(number){
+         return list_question_in_category[number - 1].id;
+        });
+      console.log(list_question_in_category);
+      console.log(list_category_ids);
+      for (i = 0; i < list_category_ids.length; i++) {
+        var section_question = {
+          question_id: list_category_ids[i],
+          section_id: section_id,
+        };
+        Data.post('section_questions', section_question).then(function(result){
+            var x = angular.copy(section_question);
+            x.id = result.data;
+            $modalInstance.close(x);
+          });
+      }
     });
-    $modalInstance.close(x);
   }
-    // debugger;
-    // $scope.list = {};
-    // var $count = 0;
-    // Data.get('categories/'+$scope.category_id_in_form).then(function(data){
-    //   $scope.list = data;
-    //   console.log(typeof(data));
-    //   console.log($scope.list);
-    // });
 
   $scope.cancel = function() {
     $modalInstance.dismiss('Close');
