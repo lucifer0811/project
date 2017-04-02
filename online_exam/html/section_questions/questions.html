@@ -7,25 +7,29 @@
 <div class="modal-body">
   <div class="row select_category">
     <select class="form-control" ng-model="category"
-      ng-options="item.name for item in categories" ng-change="update()">
+      ng-options="item.name for item in categories" ng-change="list_question_in_category()">
       <option value="">-- Select an option--</option>
     </select>
   </div>
   <div class="row show_question">
-    <ul ng-repeat="question in questions">
-      <div class="row">
-        <li style="list-style-type: none">
-          <div class="col-md-9">
-            {{question.content}}
-          </div>
-          <div class="col-md-2" float="right">
-            <input type="checkbox" ng-model="check_question_id" ng-change="stateChanged(question)" />
-            <!-- <input type="checkbox"" ng-model="check_question" ng-change="stateChanged(question.id)" ng-true-value="'YES'" ng-false-value="'NO'" />
-             --> <!--  value="{{question.id}} -->
-          </div>
-        </li>
-      </div>
-    </ul>
+    <div class="row"><p>List Questions</p></div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Name</th>
+          <th>Choose</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="question in questions track by $index">
+        <tr>
+          <td>{{$index + 1}}</td>
+          <td>{{question.content}}</td>
+          <td><input type="checkbox" ng-click="list_question_choose(question)"/></td>
+        </tr>
+      </tbody>
+    </table>
   </div>
-  <button type="button" class="btn btn-success pull-right" ng-click="submit()">&nbsp;Submit</button>
+  <button type="button" class="btn btn-success pull-right"
+    ng-click="create_section_question_by_choose_question()">&nbsp;Submit</button>
 </div>
