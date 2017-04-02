@@ -10,7 +10,8 @@ app.controller('sectionCtrl', function($scope, $rootScope, $routeParams ,$filter
     $scope.questions = data;
   });
 
-  $scope.showAllQuestion = function(p, size){
+  $scope.showAllQuestion = function(p, q, size){
+    $rootScope.id_section = q.id;
     var modalInstance = $modal.open({
       templateUrl: 'html/section_questions/questions.html',
       controller: 'section_questionCtrl',
@@ -23,7 +24,7 @@ app.controller('sectionCtrl', function($scope, $rootScope, $routeParams ,$filter
     });
   };
 
-  $scope.addRandomQuestion = function(p,q, size){
+  $scope.addRandomQuestion = function(p, q, size){
     $rootScope.id_section = q.id;
     var modalInstance = $modal.open({
       templateUrl: 'html/section_questions/question_random.html',

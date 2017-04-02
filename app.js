@@ -81,7 +81,6 @@ app.delete('/api/categories/:id', function(req, res){
 
 
 app.post('/api/addQuestions', function (req, res) {
-  console.log(req.body);
   req.body.answers = JSON.stringify(req.body.answers);
   pool.query('insert into question SET ?',[req.body], function(err, rows, fields) {
     if (err) throw err;
@@ -91,7 +90,6 @@ app.post('/api/addQuestions', function (req, res) {
 
 app.put('/api/editQuestions', function (req, res) {
   req.body.answers = JSON.stringify(req.body.answers);
-  console.log(req.body);
   pool.query('UPDATE question SET ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
@@ -141,7 +139,6 @@ app.delete('/api/examies/:exam_id/sections/:id', function(req, res){
 });
 
 app.post('/api/section_questions', function(req, res){
-  console.log(req.body);
   pool.query('insert into section_question set ?',[req.body], function(err, rows, fields){
     if (err) throw err;
     res.json(rows);
