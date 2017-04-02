@@ -8,9 +8,8 @@
   <div ng-if="question.id != null" flex="20" layout="column">
     <h3 class="modal-title">Edit question</h3>
   </div>
-
 </div>
-<md-content layout-padding>
+<div class="modal-body">
   <div ng-if="question.id == null">
     <form>
       Pick a topic:
@@ -108,21 +107,23 @@
             <textarea ng-model="question.content"></textarea>
           </md-input-container>
         </div>
-        <div>
-          <label>Category</label>
-          <select class="form-control select_question" id="category" name="category" ng-model="question.category_id">
+        <div class="row">
+          <div class="col-xs-6">
+            <label style="display: inline-block">Category</label>
+            <select class="form-control select_question" id="category" name="category" ng-model="question.category_id">
+                    <option value="0" selected>--Select Category--</option>
                     <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
                   </select>
+          </div>
+          <div class="col-xs-6">
+            <select ng-change="numberAnswer()" ng-model="numberdd" >
+              <option value="0">select correct answer</option>  
+              <option value="1">1 correct answer</option>
+              <option value="2">2 correct answer</option>
+              <option value="2">3 correct answer</option>    
+            </select>
+          </div>
         </div>
-        <div>
-          <select  ng-change="numberAnswer()" ng-model="numberdd">
-            <option value="1">1 correct answer</option>
-            <option value="2">2 correct answer</option>
-            <option value="2">3 correct answer</option>    
-          </select>
-        </div>
-        
-
         <div ng-repeat="answer in question.answers">
           <div layout-gt-sm="row">
             <md-input-container class="md-block 6" flex-gt-sm>
@@ -147,4 +148,4 @@
       </form>
     </div>
   </div>
-</md-content>
+</div>

@@ -52,11 +52,20 @@ app.post('/api/categories', function (req, res) {
 });
 
 app.get('/api/questions', function (req,res) {
-  pool.query('SELECT * FROM question ', function(err, rows, fields) {
+  pool.query('SELECT * FROM question INNER JOIN category ON question.category_id = category.id ', function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 });
+
+app.put('/api/deleteQuestions', function(req, res){
+  console.log(req.body.id);
+  pool.query('delete from question where id = ?', [req.body.id], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
 
 app.put('/api/categories/:id', function (req, res) {
   pool.query('UPDATE category SET ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields) {
@@ -64,13 +73,6 @@ app.put('/api/categories/:id', function (req, res) {
     res.json(rows);
   });
 });
-
-// app.get('/api/categories/:id/questions', function(req, res){
-//   pool.query('select * from question where category_id = ?', req.params.id, function(err, rows, fields){
-//     if (err) throw err;
-//     res.json(rows);
-//   })
-// })
 
 app.delete('/api/categories/:id', function(req, res){
   pool.query('delete from category where id = ?', req.params.id, function(err, rows, fields) {
