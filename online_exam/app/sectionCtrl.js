@@ -1,10 +1,14 @@
-app.controller('sectionCtrl', function($scope, $rootScope, $routeParams ,$filter, $modal, Data){
+app.controller('sectionCtrl', function($scope, $http, $location, $rootScope, $routeParams ,$filter, $modal, Data){
   $scope.id_exam = $routeParams.id;
-  $scope.section = {};
 
   Data.get('examies/'+$routeParams.id+'/sections').then(function(data){
     $scope.sections = data;
   });
+
+  $scope.details_section = function(section, size){
+    $rootScope.section_id = section.id;
+  };
+
 
   Data.get('questions').then(function(data){
     $scope.questions = data;
