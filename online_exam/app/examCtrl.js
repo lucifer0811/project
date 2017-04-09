@@ -45,10 +45,10 @@ app.controller('examNewCtrl', function($scope, $modalInstance, $http, Data){
   $scope.addExam = function(exam) {
     Data.post('examies', exam).then(function (result) {
       if(result.status != 'error'){
-          var x = angular.copy(exam);
-          x.save = 'insert';
-          x.id = result.data;
-          $modalInstance.close(x);
+        var x = angular.copy(exam);
+        x.save = 'insert';
+        x.id = result.data;
+        $modalInstance.close(x);
       }else{
         console.log(result);
       }

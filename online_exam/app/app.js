@@ -23,6 +23,11 @@ app.config(['$routeProvider',
       templateUrl: 'html/sections/section.html',
       controller: 'sectionCtrl',
     })
+    .when('/sections/:id', {
+      title: "Section",
+      templateUrl: 'html/sections/show.html',
+      controller: 'sectionCtrl',
+    })
     .when('/section_questions', {
       title: "Question in Section",
       controller: 'section_questionCtrl',

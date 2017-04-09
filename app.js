@@ -126,6 +126,13 @@ app.get('/api/examies/:id/sections', function(req, res){
   });
 });
 
+app.get('/api/sections/:id', function(req, res){
+  pool.query('SELECT * FROM section_question where section_id = ?', req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
 app.post('/api/examies/:exam_id/sections', function(req, res){
   pool.query('insert into section SET ?',[req.body], function(err, rows, fields) {
     if (err) throw err;
