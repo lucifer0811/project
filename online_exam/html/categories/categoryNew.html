@@ -7,8 +7,11 @@
 <div class="modal-body">
   <form name="product_form" class="form-horizontal" role="form" novalidate ng-submit="addNewCategory(category)">
     <div class="form-group">
-      <input type="text" class="form-control" name="name" placeholder="name" ng-model="category.name" focus/>
+      <input type="text" class="form-control" name="name" placeholder="name" ng-model="name" required>
     </div>
+      <p>The input's valid state is:</p>
+      <h1>{{product_form.name.$valid}}</h1>
+      PHAn
     <div class="form-group">
       <textarea class="form-control" name="descriptions" placeholder="DESCRIPTIONS" ng-model="category.descriptions"></textarea>
     </div>
