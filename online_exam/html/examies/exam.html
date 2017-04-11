@@ -10,7 +10,7 @@
     <table class="table table-striped">
       <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
       <tr ng-repeat="c in examies">
-        <td>{{c.name}}</td>
+        <td><a href="#/examies/{{c.id}}/show">{{c.name}}</a></td>
         <td>{{c.open_time}}</td>
         <td>{{c.close_time}}</td>
         <td>

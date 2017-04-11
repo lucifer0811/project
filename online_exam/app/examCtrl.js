@@ -55,3 +55,24 @@ app.controller('examNewCtrl', function($scope, $modalInstance, $http, Data){
     });
   }
 });
+app.controller('detailExamCtrl', function($scope, $routeParams ,$http, Data){
+  $scope.id_exam = $routeParams.id;
+
+  Data.get('examies/'+$routeParams.id).then(function(data){
+    $scope.examies = data;
+  });
+
+  Data.get('examies/'+$routeParams.id+'/sections').then(function(data){
+    angular.forEach(data, function(value, key) {
+      Data.get('examies/'+ value.id +'/question').then(function(data){
+        value.question = data;
+
+      });
+    })
+    $scope.sections = data;
+  });
+
+  
+
+});
+
