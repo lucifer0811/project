@@ -1,15 +1,16 @@
 <h1>Question</h1>
+
 <table ng-table="vm.tableParams" class="table" show-filter="true">
     <tr>
         <th ng-repeat="c in columns">{{c.text}}</th>
     </tr>
     <tr ng-repeat="c in questions">
-        <td title="'ID'" filter="{ name: 'text'}" sortable="'name'">
+        <td title="'ID'" >
             {{c.id}}</td>
-        <td title="'CONTENT'" filter="{ age: 'content'}" sortable="'age'">
+        <td title="'CONTENT'" >
             <a href="" >{{c.content}}</a>
         </td>
-        <td title="'CATEGORY'" filter="{ age: 'name'}" sortable="'age'">
+        <td title="'CATEGORY'" >
             <a href="">{{c.name}}</a>
         </td>
         <td>
@@ -18,6 +19,5 @@
         </td>
     </tr>
 </table>
-<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(question);">&nbsp;Add New Question</button>
-<div>
-</div>
+<a href="#/question/add"><button class="btn btn-danger fa fa-plus" >Add New Question</button></a><!-- 
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(question);">&nbsp;Add New Question</button> -->

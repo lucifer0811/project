@@ -8,6 +8,11 @@ app.config(['$routeProvider',
       templateUrl: 'html/questions/question.html',
       controller: 'questionCtrl',
     })
+    .when('/question/add', {
+      title: 'Add questions',
+      templateUrl: 'html/questions/questionNew.html',
+      controller: 'addQuestionCtrl',
+    })
     .when('/categories', {
       title: "List Category",
       templateUrl: 'html/categories/category.html',
@@ -22,6 +27,11 @@ app.config(['$routeProvider',
       title: "Exam",
       templateUrl: 'html/sections/section.html',
       controller: 'sectionCtrl',
+    })
+    .when('/examies/:id/show',{
+      title: "Exam",
+      templateUrl: 'html/examies/detail.html',
+      controller: 'detailExamCtrl',
     })
     .when('/section_questions', {
       title: "Question in Section",

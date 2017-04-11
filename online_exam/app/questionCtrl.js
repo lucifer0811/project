@@ -31,6 +31,41 @@ app.controller('questionCtrl', function ($scope,$modal, $filter, Data){
     }
     };            
 })
+app.controller('addQuestionCtrl', function ($scope, $modal, $filter, Data,$window){
+   Data.get('categories').then(function (data) {
+        $scope.categories = data;
+    });
+    if ($scope.question == null) {
+        $scope.question = {};
+        $scope.question.answers = [];
+        var choice1 = {};
+        var choice2 = {};
+        var choice3 = {};
+        var choice4 = {};
+        $scope.question.answers.push(choice1);
+        $scope.question.answers.push(choice2);
+        $scope.question.answers.push(choice3);
+        $scope.question.answers.push(choice4);
+    } 
+    $scope.saveQuestion = function () {
+       
+            Data.post('addQuestions', $scope.question).then(function (result) {
+                console.log(result);
+                if (result.serverStatus != '2') {
+                    var x = angular.copy($scope.question);
+                    x.save = 'update';
+                } else {
+                  var host = $window.location.host;
+                  var landingUrl = "http://" + host + "/project/online_exam/#/home";
+                  console.log(landingUrl);
+                  $window.location.href = landingUrl;
+                    console.log(result);
+                }
+            });
+  
+    };
+
+})
 app.controller('editQuestionCtrl', function ($scope, $modal, $filter, Data, item, $modalInstance) {
     Data.get('categories').then(function (data) {
         $scope.categories = data;
@@ -78,9 +113,10 @@ app.controller('editQuestionCtrl', function ($scope, $modal, $filter, Data, item
             });
         }
     };
+    $scope.numberCorrectAnswer=[1,2,3];
     $scope.numberAnswer = function(){
-        console.log($scope.numberdd);
-        switch ($scope.number) {
+        console.log($scope.numberCorrect);
+        switch ($scope.numberCorrect) {
             case '1':
                 console.log("1");
                 break;

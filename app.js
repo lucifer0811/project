@@ -52,7 +52,7 @@ app.post('/api/categories', function (req, res) {
 });
 
 app.get('/api/questions', function (req,res) {
-  pool.query('SELECT * FROM question INNER JOIN category ON question.category_id = category.id ', function(err, rows, fields) {
+  pool.query('SELECT question.id, question.content, question.answers, question.type, category.name   FROM question INNER JOIN category ON question.category_id = category.id ', function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
@@ -118,13 +118,26 @@ app.delete('/api/examies/:id', function(req, res){
     res.json(rows);
   });
 });
-
+app.get('/api/examies/:id', function(req, res){
+  pool.query('SELECT * FROM exam where id = ?', req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
 app.get('/api/examies/:id/sections', function(req, res){
   pool.query('SELECT * FROM section where exam_id = ?', req.params.id, function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 });
+app.get('/api/examies/:id/question', function(req, res){
+  pool.query('SELECT section_question.mark, question.content FROM section_question INNER JOIN question ON question.id = section_question.question_id where section_id = ?', req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+
 
 app.post('/api/examies/:exam_id/sections', function(req, res){
   pool.query('insert into section SET ?',[req.body], function(err, rows, fields) {
