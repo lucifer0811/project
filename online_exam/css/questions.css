@@ -4,3 +4,12 @@
 .select_question{
 	width: 50%;
 }
+
+.detail_exam_header {
+  padding-bottom: 30px;
+  border-bottom: 2px solid #e8e8e8;
+}
+
+.content_section {
+  margin-top: 15px;
+}
