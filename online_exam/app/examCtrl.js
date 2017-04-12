@@ -62,17 +62,40 @@ app.controller('detailExamCtrl', function($scope, $routeParams ,$http, Data){
     $scope.examies = data;
   });
 
+  Data.get('section_questions').then(function(data){
+    $scope.section_questions = data;
+  });
+
   Data.get('examies/'+$routeParams.id+'/sections').then(function(data){
     angular.forEach(data, function(value, key) {
       Data.get('examies/'+ value.id +'/question').then(function(data){
         value.question = data;
-
       });
     })
     $scope.sections = data;
   });
 
-  
-
+  $scope.getdetails = function(section, question){
+    var section_question_id;
+    angular.forEach($scope.section_questions, function(value, key) {
+      if (value.section_id == section.id && value.question_id == question.id){
+        section_question_id = value.id;
+      }
+    });
+    var section_question = {
+        id: section_question_id,
+        mark: question.mark,
+        question_id: question.id,
+        section_id: section.id
+    };
+    debugger;
+    Data.put('section_questions/'+section_question_id, section_question).then(function (result){
+      if (result.status != 'error'){
+        var x = angular.copy(section_question);
+      }else{
+        console.log(result);
+      }
+    });
+    debugger;
+  };
 });
-

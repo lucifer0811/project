@@ -131,13 +131,11 @@ app.get('/api/examies/:id/sections', function(req, res){
   });
 });
 app.get('/api/examies/:id/question', function(req, res){
-  pool.query('SELECT section_question.mark, question.content FROM section_question INNER JOIN question ON question.id = section_question.question_id where section_id = ?', req.params.id, function(err, rows, fields) {
+  pool.query('SELECT section_question.mark, question.id, question.content FROM section_question INNER JOIN question ON question.id = section_question.question_id where section_id = ?', req.params.id, function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 });
-
-
 
 app.post('/api/examies/:exam_id/sections', function(req, res){
   pool.query('insert into section SET ?',[req.body], function(err, rows, fields) {
@@ -156,6 +154,19 @@ app.delete('/api/examies/:exam_id/sections/:id', function(req, res){
 app.post('/api/section_questions', function(req, res){
   pool.query('insert into section_question set ?',[req.body], function(err, rows, fields){
     if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.get('/api/section_questions', function(req, res){
+  pool.query('select * from section_question', function(err, rows, fields){
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.put('/api/section_questions/:id', function(req, res){
+   pool.query('UPDATE section_question set ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields){
     res.json(rows);
   });
 });
