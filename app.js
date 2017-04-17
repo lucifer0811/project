@@ -1,5 +1,6 @@
 var express = require('express'),
   cors = require('cors'),
+  wait = require('wait.for'),
   app = express();
 
 app.use(cors());
@@ -14,6 +15,9 @@ var pool = mysql.createPool({
   database : 'online_exam'
 });
 
+function db_function(f, req, res){
+  wait.launchFiber(f,req,res);
+};
 
 var path= require("path");
 app.use('/static', express.static(__dirname + '/online_exam'));
@@ -30,11 +34,13 @@ app.get('/api', function (req, res) {
   res.send('Hello World!');
 });
 
+function get_categories(req, res){
+  var rows = wait.forMethod(pool, 'query', "SELECT * FROM category", []);
+  res.json(rows);
+}
+
 app.get('/api/categories', function (req,res) {
-  pool.query('SELECT * FROM category ', function(err, rows, fields) {
-    if (err) throw err;
-    res.json(rows);
-  });
+  db_function(get_categories, req,res);
 });
 
 app.get('/api/categories/:id', function (req,res) {
@@ -118,18 +124,21 @@ app.delete('/api/examies/:id', function(req, res){
     res.json(rows);
   });
 });
+
 app.get('/api/examies/:id', function(req, res){
   pool.query('SELECT * FROM exam where id = ?', req.params.id, function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 });
+
 app.get('/api/examies/:id/sections', function(req, res){
   pool.query('SELECT * FROM section where exam_id = ?', req.params.id, function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 });
+
 app.get('/api/examies/:id/question', function(req, res){
   pool.query('SELECT section_question.mark, question.id, question.content FROM section_question INNER JOIN question ON question.id = section_question.question_id where section_id = ?', req.params.id, function(err, rows, fields) {
     if (err) throw err;
@@ -165,6 +174,27 @@ app.get('/api/section_questions', function(req, res){
   });
 });
 
+app.get('/api/examies/:id/details', function(req, res){
+  db_function(get_exam, req, res);
+});
+
+function get_exam(req, res){
+  var exam = wait.forMethod(pool, 'query', "select * from exam where id = ?", [req.params.id]);
+  for(var i = 0; i < exam.length; i++) {
+    var sections = wait.forMethod(pool, 'query', "select * from section where exam_id = ?", [exam[i].id]);
+    exam[i].section = sections;
+    for(var j = 0; j < sections.length; j++){
+      var section_questions = wait.forMethod(pool, 'query', "select * from section_question where section_id = ?", [sections[j].id]);
+      var questions = [];
+      for(var z = 0; z < section_questions.length; z++){
+        var question = wait.forMethod(pool, 'query', "select id, content, category_id, type from question where id = ?", [section_questions[z].question_id]);
+        questions.push(question);
+      }
+      sections[j].question = questions;
+    }
+  }
+  res.json(exam);
+}
 app.put('/api/section_questions/:id', function(req, res){
    pool.query('UPDATE section_question set ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields){
     res.json(rows);

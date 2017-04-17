@@ -1,9 +1,10 @@
 app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstance, $http, Data){
   Data.get('categories').then(function(data){
     $scope.categories = data;
+    $scope.category = $scope.categories[2];
   });
 
-  Data.get('questions').then(function(data){
+  Data.get('categories/'+$scope.category).then(function(data){
     $scope.questions = data;
   });
 
@@ -71,6 +72,7 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
   }
 
   $scope.list_question_in_category = function(){
+    console.log($scope.category.id);
     Data.get('categories/'+$scope.category.id).then(function(data){
       $scope.questions = data;
     });
