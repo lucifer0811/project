@@ -21,7 +21,7 @@
           <th>Mark</th>
         </tr>
       </thead>
-      <tbody ng-repeat="question in questions track by $index">
+      <tbody ng-repeat="question in questions track by question.id">
         <tr>
           <td>{{$index + 1}}</td>
           <td>{{question.content}}</td>

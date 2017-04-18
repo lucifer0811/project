@@ -6,10 +6,6 @@ app.controller('sectionCtrl', function($scope, $rootScope, $routeParams ,$filter
     $scope.sections = data;
   });
 
-  Data.get('questions').then(function(data){
-    $scope.questions = data;
-  });
-
   $scope.showAllQuestion = function(p, q, size){
     $rootScope.id_section = q.id;
     var modalInstance = $modal.open({

@@ -98,4 +98,18 @@ app.controller('detailExamCtrl', function($scope, $routeParams ,$http, Data){
     });
     debugger;
   };
+
+  $scope.deleteSectionQuestion = function(question_id, section_id){
+    var section_question_id;
+    angular.forEach($scope.section_questions, function(value, key) {
+      if (value.section_id == section_id && value.question_id == question_id){
+        section_question_id = value.id;
+      }
+    });
+    if(confirm("Are you sure!!!!")){
+      Data.delete('section_questions/'+section_question_id).then(function(result){
+        $scope.section_questions = _.without($scope.section_questions, _.findWhere($scope.section_questions, {id:section_question_id}));
+      });
+    }
+  };
 });

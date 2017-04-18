@@ -19,7 +19,8 @@
             <tr>
               <td>{{$index +1}}</td>
               <td>{{question.content}}</td>
-              <td style="float: right;"><input type="number" ng-blur="getdetails(c, question)" ng-model="question.mark"></td>
+              <td style="float: right;"><input type="number" class="form-control" ng-blur="getdetails(c, question)" ng-model="question.mark"></td>
+              <td><button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteSectionQuestion(question.id,c.id);"></button></td>
             </tr>
           </tbody>
         </table>
