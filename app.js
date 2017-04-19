@@ -2,6 +2,7 @@ var express = require('express'),
   cors = require('cors'),
   wait = require('wait.for'),
   app = express();
+  //parseXlsx = require('excel'),
 
 app.use(cors());
 
@@ -14,6 +15,11 @@ var pool = mysql.createPool({
   password : 'dev123',
   database : 'online_exam'
 });
+
+//parseXlsx('Spreadsheet.xlsx', function(err, data) {
+  //if(err) throw err;
+  //console.log("Phan");
+//});
 
 function db_function(f, req, res){
   wait.launchFiber(f,req,res);
@@ -79,7 +85,6 @@ app.put('/api/deleteQuestions', function(req, res){
   });
 });
 
-
 app.put('/api/categories/:id', function (req, res) {
   pool.query('UPDATE category SET ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields) {
     if (err) throw err;
@@ -94,6 +99,12 @@ app.delete('/api/categories/:id', function(req, res){
   });
 });
 
+app.get('/api/questions/:id', function(req,res){
+  pool.query('select content from question where id = ?', req.params.id, function(err, rows, fields){
+    if (err) throw err;
+    res.json(rows);
+  });
+});
 
 app.post('/api/addQuestions', function (req, res) {
   req.body.answers = JSON.stringify(req.body.answers);
