@@ -25,6 +25,24 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
     return a;
   }
 
+  $scope.view_random_question = function(){
+    var number = $scope.number_question_random;
+    if (number != null){
+      var b = [];
+      Data.get('categories/'+$scope.category.id).then(function(data){
+        $scope.question_in_categories = data;
+        b = create_ids_section_question(number, $scope.question_in_categories.length);
+        $scope.question_view_in_random = [];
+        for(var i = 0; i<b.length; i++){
+          var index = b[i] - 1;
+          Data.get('questions/'+$scope.question_in_categories[index].id).then(function(data){
+            $scope.question_view_in_random.push(data);
+          });
+        }
+        });
+    }
+  }
+
   $scope.update = function(){
     $scope.category_id_in_form = $scope.category.id;
     Data.get('categories/'+$scope.category.id).then(function(data){
@@ -93,8 +111,6 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
       var list_category_ids = b.map(function(number){
          return list_question_in_category[number - 1].id;
         });
-      console.log(list_question_in_category);
-      console.log(list_category_ids);
       for (i = 0; i < list_category_ids.length; i++) {
         var section_question = {
           question_id: list_category_ids[i],
