@@ -100,7 +100,7 @@ app.delete('/api/categories/:id', function(req, res){
 });
 
 app.get('/api/questions/:id', function(req,res){
-  pool.query('select content from question where id = ?', req.params.id, function(err, rows, fields){
+  pool.query('select id, content from question where id = ?', req.params.id, function(err, rows, fields){
     if (err) throw err;
     res.json(rows);
   });
