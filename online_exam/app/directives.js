@@ -1,4 +1,3 @@
-
 app.directive('formElement', function() {
     return {
         restrict: 'E',
@@ -14,7 +13,7 @@ app.directive('formElement', function() {
         },
         template: '<div class="form-group"><label class="col-sm-3 control-label no-padding-right" >  {{label}}</label><div class="col-sm-7"><span class="block input-icon input-icon-right" ng-transclude></span></div></div>'
       };
-        
+
 });
 
 app.directive('onlyNumbers', function() {
@@ -36,7 +35,7 @@ app.directive('onlyNumbers', function() {
 app.directive('focus', function() {
     return function(scope, element) {
         element[0].focus();
-    }      
+    }
 });
 app.directive('animateOnChange', function($animate) {
   return function(scope, elem, attr) {
@@ -47,6 +46,6 @@ app.directive('animateOnChange', function($animate) {
               $animate.removeClass(elem,c);
           });
         }
-      });  
-  }  
+      });
+  }
 });

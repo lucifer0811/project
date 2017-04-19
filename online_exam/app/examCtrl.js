@@ -88,7 +88,6 @@ app.controller('detailExamCtrl', function($scope, $routeParams ,$http, Data){
         question_id: question.id,
         section_id: section.id
     };
-    debugger;
     Data.put('section_questions/'+section_question_id, section_question).then(function (result){
       if (result.status != 'error'){
         var x = angular.copy(section_question);
@@ -96,7 +95,6 @@ app.controller('detailExamCtrl', function($scope, $routeParams ,$http, Data){
         console.log(result);
       }
     });
-    debugger;
   };
 
   $scope.deleteSectionQuestion = function(question_id, section_id){
