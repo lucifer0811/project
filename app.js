@@ -37,7 +37,14 @@ app.get('/api', function (req, res) {
 function get_categories(req, res){
   var rows = wait.forMethod(pool, 'query', "SELECT * FROM category", []);
   res.json(rows);
-}
+};
+
+app.delete('/api/section_questions/:id', function(req, res){
+  pool.query('delete from section_question where id = ?', req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
 
 app.get('/api/categories', function (req,res) {
   db_function(get_categories, req,res);
@@ -187,7 +194,7 @@ function get_exam(req, res){
       var section_questions = wait.forMethod(pool, 'query', "select * from section_question where section_id = ?", [sections[j].id]);
       var questions = [];
       for(var z = 0; z < section_questions.length; z++){
-        var question = wait.forMethod(pool, 'query', "select id, content, category_id, type from question where id = ?", [section_questions[z].question_id]);
+        var question = wait.forMethod(pool, 'query', "select id, content, answers, type from question where id = ?", [section_questions[z].question_id]);
         questions.push(question);
       }
       sections[j].question = questions;
