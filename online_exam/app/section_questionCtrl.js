@@ -43,6 +43,10 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
     }
   }
 
+  $scope.auto_review = function(){
+    $scope.view_random_question();
+  }
+
   $scope.update = function(){
     $scope.category_id_in_form = $scope.category.id;
     Data.get('categories/'+$scope.category.id).then(function(data){
@@ -104,16 +108,10 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
   $scope.push_question_section = function() {
     Data.get('categories/'+$scope.category_id_in_form).then(function(data){
       var section_id = $rootScope.id_section;
-      var b = [];
       var list_question_in_category = data;
-      var number_question_random = $scope.number_question_random;
-      b = create_ids_section_question(number_question_random, list_question_in_category.length );
-      var list_category_ids = b.map(function(number){
-         return list_question_in_category[number - 1].id;
-        });
-      for (i = 0; i < list_category_ids.length; i++) {
+      for (i = 0; i < $scope.question_view_in_random.length; i++) {
         var section_question = {
-          question_id: list_category_ids[i],
+          question_id: $scope.question_view_in_random[i][0].id,
           section_id: section_id,
         };
         Data.post('section_questions', section_question).then(function(result){
@@ -130,7 +128,6 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
   }
 
   $scope.stateChanged = function(q, checked){
-    debugger;
     if(q.id > 0 && checked){
       $scope.list_questions_chooes.push(q.id);
     }
