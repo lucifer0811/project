@@ -15,18 +15,15 @@
     <table class="table">
       <thead>
         <tr>
-          <th>STT</th>
           <th>Name</th>
           <th>Choose</th>
-          <th>Mark</th>
         </tr>
       </thead>
       <tbody ng-repeat="question in questions track by question.id">
         <tr>
-          <td>{{$index + 1}}</td>
+          <td style="display:none">{{question.id}}</td>
           <td>{{question.content}}</td>
           <td><input type="checkbox" ng-click="list_question_choose(question)"/></td>
-          <td></td>
         </tr>
       </tbody>
     </table>
