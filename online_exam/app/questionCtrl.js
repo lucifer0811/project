@@ -5,7 +5,7 @@ app.controller('questionCtrl', function ($scope,$modal, $filter, Data){
 
     $scope.columns = [
       {text:"#",predicate:"ID",sortable:true},
-      {text:"Content",predicate:"content",sortable:true},
+      {text:"Title",predicate:"title",sortable:true},
       {text:"Category",predicate:"category",sortable:true},
       {text:"",predicate:"content",sortable:true},
     ];
@@ -31,24 +31,25 @@ app.controller('questionCtrl', function ($scope,$modal, $filter, Data){
     }
     };            
 })
-app.controller('addQuestionCtrl', function ($scope, $modal, $filter, Data,$window){
+app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'Upload', 'cloudinary','$modal', '$filter', 'Data','$window',
+  function ($scope, $rootScope, $routeParams, $location, $upload, cloudinary, $modal, $filter, Data,$window){
    Data.get('categories').then(function (data) {
         $scope.categories = data;
     });
     if ($scope.question == null) {
         $scope.question = {};
         $scope.question.answers = [];
-        var choice1 = {};
-        var choice2 = {};
-        var choice3 = {};
-        var choice4 = {};
+        var choice1 = {"id" : 1};
+        var choice2 = {"id" : 2};
+        var choice3 = {"id" : 3};
+        var choice4 = {"id" : 4};
         $scope.question.answers.push(choice1);
         $scope.question.answers.push(choice2);
         $scope.question.answers.push(choice3);
         $scope.question.answers.push(choice4);
     } 
+
     $scope.saveQuestion = function () {
-       
             Data.post('addQuestions', $scope.question).then(function (result) {
                 console.log(result);
                 if (result.serverStatus != '2') {
@@ -62,56 +63,85 @@ app.controller('addQuestionCtrl', function ($scope, $modal, $filter, Data,$windo
                     console.log(result);
                 }
             });
-  
     };
+    var d = new Date();
+    $scope.title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";
+    //$scope.$watch('files', function() {
+    $scope.uploadFiles = function(files){
+      console.log("dddd");
+      console.log(files);
+      $scope.files = files;
+      if (!$scope.files) return;
+      angular.forEach(files, function(file){
+        if (file && !file.$error) {
+          file.upload = $upload.upload({
+            url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
+            data: {
+              upload_preset: cloudinary.config().upload_preset,
+              tags: 'myphotoalbum',
+              context: 'photo=' + $scope.title,
+              file: file
+            }
+          }).progress(function (e) {
+            file.progress = Math.round((e.loaded * 100.0) / e.total);
+            file.status = "Uploading... " + file.progress + "%";
+          }).success(function (data, status, headers, config) {
+            console.log(data.url);
+            $rootScope.photos = $rootScope.photos || [];
+            data.context = {custom: {photo: $scope.title}};
+            file.result = data;
+            $rootScope.photos.push(data);
+          }).error(function (data, status, headers, config) {
+            file.result = data;
+          });
+        }
+      });
+    };
+    //});
 
-})
-app.controller('editQuestionCtrl', function ($scope, $modal, $filter, Data, item, $modalInstance) {
+    /* Modify the look and fill of the dropzone when files are being dragged over it */
+    $scope.dragOverClass = function($event) {
+      var items = $event.dataTransfer.items;
+      var hasFile = false;
+      if (items != null) {
+        for (var i = 0 ; i < items.length; i++) {
+          if (items[i].kind == 'file') {
+            hasFile = true;
+            break;
+          }
+        }
+      } else {
+        hasFile = true;
+      }
+      return hasFile ? "dragover" : "dragover-err";
+    };
+}])
+app.controller('editQuestionCtrl', function ($scope, $filter, Data, $routeParams,$window) { 
+    $scope.id = $routeParams.id;
+
     Data.get('categories').then(function (data) {
         $scope.categories = data;
     });
-    $scope.question = angular.copy(item);
-    if ($scope.question == null) {
-        $scope.question = {};
-        $scope.question.answers = [];
-        var choice1 = {};
-        var choice2 = {};
-        var choice3 = {};
-        var choice4 = {};
-        $scope.question.answers.push(choice1);
-        $scope.question.answers.push(choice2);
-        $scope.question.answers.push(choice3);
-        $scope.question.answers.push(choice4);
-    } else {
-        $scope.question.answers = JSON.parse($scope.question.answers);
-    }
-    $scope.cancel = function () {
-        $modalInstance.dismiss('Close');
-    };
+    Data.get('questions/edit/'+$routeParams.id).then(function(data){
+      $scope.question = data[0];
+      $scope.question.answers = JSON.parse($scope.question.answers)
+    });
+
+
     $scope.saveQuestion = function () {
-        if ($scope.question.id != null) {
-            Data.put('editQuestions', $scope.question).then(function (result) {
-                if (result.status != 'error') {
-                    var x = angular.copy($scope.question);
-                    x.save = 'update';
-                    $modalInstance.close(x);
-                } else {
-                    console.log(result);
-                }
+      Data.post('editQuestions', $scope.question).then(function (result) {
                 console.log(result);
-            });
-        } else {
-            Data.post('addQuestions', $scope.question).then(function (result) {
-                console.log(result);
-                if (result.status != 'error') {
-                    var x = angular.copy($scope.question);
+                if (result.serverStatus != '2') {
                     x.save = 'update';
-                    $modalInstance.close(x);
                 } else {
+                  var host = $window.location.host;
+                  var landingUrl = "http://" + host + "/project/online_exam/#/home";
+                  console.log(landingUrl);
+                  $window.location.href = landingUrl;
                     console.log(result);
                 }
             });
-        }
+        
     };
     $scope.numberCorrectAnswer=[1,2,3];
     $scope.numberAnswer = function(){

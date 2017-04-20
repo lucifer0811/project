@@ -19,26 +19,64 @@
       <input type="radio" ng-model="question.type" value="MulChoose">MultipleChoose
     </form>
   </div>
-  <div ng-switch="question.type">
-    <div ng-switch-when="Short">
-      <h1>Short</h1>
-      <p>Welcome to a world of dogs.</p>
+  
+  <form name="userForm">
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Title</label>
+        <input ng-model="question.title"></input>
+      </md-input-container>
     </div>
-    <div ng-switch-when="Match">
-      <h1>Match</h1>
-      <form name="userForm">
-        <div layout-gt-sm="row">
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Nội dung câu hỏi</label>
-            <textarea ng-model="question.content"></textarea>
-          </md-input-container>
-        </div>
-        <div>
-          <label>Category</label>
-          <select class="form-control select_question" id="category" name="category" ng-model="question.category_id">
-                    <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
+    <div layout-gt-sm="row">
+      <md-input-container class="md-block" flex-gt-sm>
+        <label>Content of question</label>
+        <textarea ng-model="question.content" ckeditor="editorOptions"></textarea>
+      </md-input-container>
+    </div>
+    <div>
+      <label>Category</label>
+       
+      <select class="form-control select_question" id="category" name="category" ng-model="question.category_id">
+
+        <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
                   </select>
+
+    </div>
+    
+
+    <div id="direct_upload" 
+    ngf-drop="uploadFiles($files)"
+    ngf-drag-over-class="dragOverClass($event)"
+    ng-model="files"
+    ng-multiple="true">
+        <div class="form_line">
+            <label>Image:</label>
+            <div class="form_controls">
+                <div class="upload_button_holder">
+                    <div href="#" class="upload_button" ngf-select="uploadFiles($files)" multiple title="upload" resetOnClick="true" >Upload</div>
+                </div>
+                
+            </div>
         </div>
+    <div class="file" ng-repeat="file in files">
+        <div>
+          <input type="hidden" name="" ng-model="question.file" value="file.result.url || file">
+        </div>
+        <h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
+        <div class="status">{{file.status}}</div>
+        <div class="progress-bar">
+          <div class="progress" style="width: {{file.progress}}%" ng-init="progress=0"></div>
+        </div>
+        <div class="form_line">
+            <div class="form_controls">
+                <div class="preview images_upload">
+                    <img ngf-src="file.result.url || file">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ng-switch="question.type">
+      <div ng-switch-when="Match">
         <div ng-repeat="answer in question.answers">
           <div layout-gt-sm="row">
             <md-input-container class="md-block " flex-gt-sm>
@@ -50,31 +88,12 @@
             </md-input-container>
           </div>
         </div>
-        <form-element label="">
-          <div class="text-right">
-            <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
-            <button ng-click="saveQuestion();" class="btn btn-sm btn-primary" type="submit">
-                                    <i class="ace-icon fa fa-check"></i>{{buttonText}}
-                                </button>
-          </div>
-        </form-element>
-      </form>
-    </div>
-    <div ng-switch-when="TF">
-      <h1>TF</h1>
-      <form name="userForm">
-        <div layout-gt-sm="row">
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Nội dung câu hỏi</label>
-            <textarea ng-model="question.content"></textarea>
-          </md-input-container>
-        </div>
-        <div>
-          <label>Category</label>
-          <select class="form-control select_question" id="category" name="category" ng-model="question.category_id">
-                    <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
-                  </select>
-        </div>
+      </div>
+      <div ng-switch-when="Short">
+        <h1>Short</h1>
+        
+      </div>
+      <div ng-switch-when="TF">
         <div ng-repeat="answer in question.answers">
           <div layout-gt-sm="row">
             <md-input-container class="md-block " flex-gt-sm>
@@ -88,41 +107,9 @@
             </md-input-container>
           </div>
         </div>
-        <form-element label="">
-          <div class="text-right">
-            <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
-            <button ng-click="saveQuestion();" class="btn btn-sm btn-primary" type="submit">
-                                    <i class="ace-icon fa fa-check"></i>{{buttonText}}
-                                </button>
-          </div>
-        </form-element>
-      </form>
-    </div>
-    <div ng-switch-when="MulChoose">
-      <h1>MulChoose</h1>
-      <form name="userForm">
-        <div layout-gt-sm="row">
-          <md-input-container class="md-block" flex-gt-sm>
-            <label>Nội dung câu hỏi</label>
-            <textarea ng-model="question.content"></textarea>
-          </md-input-container>
-        </div>
-        <div class="row">
-          <div class="col-xs-6">
-            <label style="display: inline-block">Category</label>
-            <select class="form-control select_question" id="category" name="category" ng-model="question.category_id">
-                    <option value="0" selected>--Select Category--</option>
-                    <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
-                  </select>
-          </div>
-          <div class="col-xs-6">
-            <select ng-change="numberAnswer()" ng-model="numberCorrect" >
-              <option ng-repeat="x in numberCorrectAnswer" value="{{x}}">{{x}} Correct Answer </option>
-            </select>
-          </div>
-        </div>
-        {{numberCorrect}}
-        <div ng-repeat="answer in question.answers">
+      </div>
+      <div ng-switch-when="MulChoose">
+        <div ng-repeat="answer in question.answers  track by $index">
           <div layout-gt-sm="row">
             <md-input-container class="md-block 6" flex-gt-sm>
               <label>Đáp án {{ $index + 1 }}</label>
@@ -135,15 +122,23 @@
             </md-input-container>
           </div>
         </div>
-        <form-element label="">
-          <div class="text-right">
-            <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
-            <button ng-click="saveQuestion();" class="btn btn-sm btn-primary" type="submit">
-                                    <i class="ace-icon fa fa-check"></i>{{buttonText}}
-                                </button>
-          </div>
-        </form-element>
-      </form>
+      </div>
     </div>
-  </div>
+    
+    <form-element>
+      <div class="">
+        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+        <button ng-click="saveQuestion();" class="btn btn-sm btn-primary" type="submit">
+          <i class="ace-icon fa fa-check"></i>{{buttonText}}</button>
+      </div>
+    </form-element>
+    
+  </form>
+  
+  
+    
+</div>
+
+<a href="#/photos" class="back_link">Back to list</a>
+  
 </div>
