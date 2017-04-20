@@ -1,5 +1,12 @@
-var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate','ngTable']);
-
+var app = angular.module('myApp', ['ngRoute',
+ 'ui.bootstrap',
+  'ngAnimate',
+  'ngTable',
+  'cloudinary',
+  'photoAlbumAnimations',
+  'photoAlbumControllers',
+  'photoAlbumServices'
+  ]);
 app.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
@@ -12,6 +19,11 @@ app.config(['$routeProvider',
       title: 'Add questions',
       templateUrl: 'html/questions/questionNew.html',
       controller: 'addQuestionCtrl',
+    })
+    .when('/question/edit/:id', {
+      title: ' questions',
+      templateUrl: 'html/questions/questionEdit.html',
+      controller: 'editQuestionCtrl',
     })
     .when('/categories', {
       title: "List Category",

@@ -30,6 +30,9 @@
         <div layout-gt-sm="row">
           <md-input-container class="md-block" flex-gt-sm>
             <label>Nội dung câu hỏi</label>
+            <textarea ng-model="question.content" data-ck-editor></textarea>
+    
+            {{question.content}}
             <textarea ng-model="question.content"></textarea>
           </md-input-container>
         </div>
@@ -39,10 +42,10 @@
                     <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
                   </select>
         </div>
-        <div ng-repeat="answer in question.answers">
+        <div ng-repeat="answer in question.answers ">
           <div layout-gt-sm="row">
             <md-input-container class="md-block " flex-gt-sm>
-              <label>Đáp án {{ $index + 1 }}</label>
+              <label>Đáp án {{answer.id }}</label>
               <input ng-model="answer.content">
             </md-input-container>
             <md-input-container class="md-block " flex-gt-sm>

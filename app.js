@@ -52,11 +52,19 @@ app.post('/api/categories', function (req, res) {
 });
 
 app.get('/api/questions', function (req,res) {
-  pool.query('SELECT question.id, question.content, question.answers, question.type, category.name   FROM question INNER JOIN category ON question.category_id = category.id ', function(err, rows, fields) {
+  pool.query('SELECT question.id, question.content, question.title, question.answers, question.type, category.name   FROM question INNER JOIN category ON question.category_id = category.id ORDER BY question.id ', function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
 });
+
+app.get('/api/questions/edit/:id', function (req,res) {
+  pool.query('SELECT * FROM question  where id = ?',req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
 
 app.put('/api/deleteQuestions', function(req, res){
   console.log(req.body.id);
@@ -160,6 +168,13 @@ app.post('/api/section_questions', function(req, res){
   });
 });
 
-app.listen(3000, function () {
-  console.log('Example app listening on port 3000!');
+app.post('/api/addUser', function (req, res) {
+  pool.query('insert into user SET ?',[req.body], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.listen(4000, function () {
+  console.log('Example app listening on port 4000!');
 });

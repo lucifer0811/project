@@ -4,3 +4,7 @@
 .select_question{
 	width: 50%;
 }
+.images_upload img{
+	width: 520px;
+	height: 300px;
+}
