@@ -17,8 +17,26 @@
   <script type="text/javascript" src="components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
   <script type="text/javascript" src="components/angular-cookies/angular-cookies.min.js"></script>
   <script type="text/javascript" src="components/angular-ui-router/release/angular-ui-router.min.js"></script>
+  <script type="text/javascript" src="components/angular-route/angular-route.min.js"></script>
+  <script type="text/javascript" src="components/angular-md5/angular-md5.min.js"></script>
+
+  
+  
+  <script src="components/lodash/lodash.js"></script>
+  <script src="components/cloudinary-core/cloudinary-core.js"></script>
+  <!-- angular file upload -->
+  <script src="components/ng-file-upload/ng-file-upload-shim.js"></script>
+  <script src="components/angular-animate/angular-animate.js"></script>
+  <script src="components/angular-resource/angular-resource.js"></script>
+  <!-- cloudinary angular plugin -->
+  <script src="components/cloudinary_ng/js/angular.cloudinary.js"></script>
+  <!-- angular file upload -->
+  <script src="components/ng-file-upload/ng-file-upload.js"></script>
   <!-- endbuild -->
+  
+
   <!-- Custom Scripts -->
+  
   <script type="text/javascript" src="js/dashboard.min.js"></script>
 </head>
 <body ng-controller="MasterCtrl">
@@ -29,16 +47,19 @@
       <ul class="sidebar">
         <li class="sidebar-main">
           <a ng-click="toggleSidebar()">
-            Dashboard
+            Home
             <span class="menu-icon glyphicon glyphicon-transfer"></span>
           </a>
         </li>
         <li class="sidebar-title"><span>NAVIGATION</span></li>
         <li class="sidebar-list">
-          <a href="#">Dashboard <span class="menu-icon fa fa-tachometer"></span></a>
+          <a href="#/home">Home <span class="menu-icon fa fa-tachometer"></span></a>
         </li>
         <li class="sidebar-list">
           <a href="#/tables">Tables <span class="menu-icon fa fa-table"></span></a>
+        </li>
+        <li class="sidebar-list">
+          <a href="#/questions">Questions <span class="menu-icon fa fa-table"></span></a>
         </li>
       </ul>
       <div class="sidebar-footer">
@@ -68,7 +89,17 @@
         <div class="row header">
           <div class="col-xs-12">
             <div class="user pull-right">
-              <div class="item dropdown" uib-dropdown>
+            <div>
+                <a ui-sref="login" class="dropdown-toggle" uib-dropdown-toggle>
+                  Login
+                </a>
+              </div>
+              <div>
+                <a ui-sref="signup" class="dropdown-toggle" uib-dropdown-toggle>
+                  SignUp
+                </a>
+              </div>
+              <!-- <div class="item dropdown" uib-dropdown>
                 <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
                   <img src="img/avatar.jpg">
                 </a>
@@ -113,16 +144,16 @@
                     <a href="#">Server Down!</a>
                   </li>
                 </ul>
-              </div>
+              </div> -->
             </div>
-            <div class="meta">
+            <!-- <div class="meta">
               <div class="page">
                 Dashboard
               </div>
               <div class="breadcrumb-links">
                 Home / Dashboard
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- End Header Bar -->

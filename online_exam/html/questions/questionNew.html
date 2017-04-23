@@ -60,7 +60,7 @@
         </div>
     <div class="file" ng-repeat="file in files">
         <div>
-          <input type="hidden" name="" ng-model="question.file" value="file.result.url || file">
+          <input type="hidden" name="" ng-model="question.file" value="file.result.url">
         </div>
         <h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
         <div class="status">{{file.status}}</div>
@@ -128,7 +128,7 @@
     <form-element>
       <div class="">
         <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
-        <button ng-click="saveQuestion();" class="btn btn-sm btn-primary" type="submit">
+        <button ng-click="saveQuestion($files);" class="btn btn-sm btn-primary" type="submit">
           <i class="ace-icon fa fa-check"></i>{{buttonText}}</button>
       </div>
     </form-element>
