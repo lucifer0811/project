@@ -1,7 +1,7 @@
 app.factory("Data", ['$http', '$location',
     function ($http, $q, $location) {
 
-        var serviceBase = 'http://localhost:4000/api/';
+        var serviceBase = 'http://localhost:3000/api/';
 
         var obj = {};
 

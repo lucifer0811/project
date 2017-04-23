@@ -48,22 +48,8 @@ app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$loc
         $scope.question.answers.push(choice3);
         $scope.question.answers.push(choice4);
     } 
-
-    $scope.saveQuestion = function () {
-            Data.post('addQuestions', $scope.question).then(function (result) {
-                console.log(result);
-                if (result.serverStatus != '2') {
-                    var x = angular.copy($scope.question);
-                    x.save = 'update';
-                } else {
-                  var host = $window.location.host;
-                  var landingUrl = "http://" + host + "/project/online_exam/#/home";
-                  console.log(landingUrl);
-                  $window.location.href = landingUrl;
-                    console.log(result);
-                }
-            });
-    };
+    var url = null;
+    $rootScope.url = "";
     var d = new Date();
     $scope.title = "Image (" + d.getDate() + " - " + d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ")";
     //$scope.$watch('files', function() {
@@ -87,6 +73,7 @@ app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$loc
             file.status = "Uploading... " + file.progress + "%";
           }).success(function (data, status, headers, config) {
             console.log(data.url);
+            $rootScope.url = data.url;
             $rootScope.photos = $rootScope.photos || [];
             data.context = {custom: {photo: $scope.title}};
             file.result = data;
@@ -115,8 +102,28 @@ app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$loc
       }
       return hasFile ? "dragover" : "dragover-err";
     };
+    $scope.saveQuestion = function () {
+      debugger;
+      $scope.question.file = $rootScope.url;
+      console.log($scope.question.file)
+            Data.post('addQuestions', $scope.question).then(function (result) {
+                console.log(result);
+                if (result.serverStatus != '2') {
+                    var x = angular.copy($scope.question);
+                    x.save = 'update';
+                } else {
+                  var host = $window.location.host;
+                  var landingUrl = "http://" + host + "/project/online_exam/#/home";
+                  console.log(landingUrl);
+                  $window.location.href = landingUrl;
+                    console.log(result);
+                }
+            });
+    };
+    
 }])
-app.controller('editQuestionCtrl', function ($scope, $filter, Data, $routeParams,$window) { 
+app.controller('editQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'Upload', 'cloudinary','$modal', '$filter', 'Data','$window',
+  function ($scope, $rootScope, $routeParams, $location, $upload, cloudinary, $modal, $filter, Data,$window){ 
     $scope.id = $routeParams.id;
 
     Data.get('categories').then(function (data) {
@@ -124,9 +131,55 @@ app.controller('editQuestionCtrl', function ($scope, $filter, Data, $routeParams
     });
     Data.get('questions/edit/'+$routeParams.id).then(function(data){
       $scope.question = data[0];
-      $scope.question.answers = JSON.parse($scope.question.answers)
+      $scope.question.answers = JSON.parse($scope.question.answers);
+      $rootScope.photos =  $scope.question.file
     });
+    
+    $scope.uploadFiles = function(files){
+      angular.forEach(files, function(file){
+        if (file && !file.$error) {
+          file.upload = $upload.upload({
+            url: "https://api.cloudinary.com/v1_1/" + cloudinary.config().cloud_name + "/upload",
+            data: {
+              upload_preset: cloudinary.config().upload_preset,
+              tags: 'myphotoalbum',
+              context: 'photo=' + $scope.title,
+              file: file
+            }
+          }).progress(function (e) {
+            file.progress = Math.round((e.loaded * 100.0) / e.total);
+            file.status = "Uploading... " + file.progress + "%";
+          }).success(function (data, status, headers, config) {
+            console.log(data.url);
+            $rootScope.url = data.url;
+            $rootScope.photos = $rootScope.photos || []; 
+            data.context = {custom: {photo: $scope.title}};
+            file.result = data;
+            $rootScope.photos.push(data);
+          }).error(function (data, status, headers, config) {
+            file.result = data;
+          });
+        }
+      });
+    };
+    //});
 
+    /* Modify the look and fill of the dropzone when files are being dragged over it */
+    $scope.dragOverClass = function($event) {
+      var items = $event.dataTransfer.items;
+      var hasFile = false;
+      if (items != null) {
+        for (var i = 0 ; i < items.length; i++) {
+          if (items[i].kind == 'file') {
+            hasFile = true;
+            break;
+          }
+        }
+      } else {
+        hasFile = true;
+      }
+      return hasFile ? "dragover" : "dragover-err";
+    };
 
     $scope.saveQuestion = function () {
       Data.post('editQuestions', $scope.question).then(function (result) {
@@ -143,20 +196,5 @@ app.controller('editQuestionCtrl', function ($scope, $filter, Data, $routeParams
             });
         
     };
-    $scope.numberCorrectAnswer=[1,2,3];
-    $scope.numberAnswer = function(){
-        console.log($scope.numberCorrect);
-        switch ($scope.numberCorrect) {
-            case '1':
-                console.log("1");
-                break;
-            case '2':
-                console.log("2");
-                break;
-            case '3':
-                console.log("3");
-                break;
-            default:
-        }
-    };
-});  
+    
+}]);  

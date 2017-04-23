@@ -21,7 +21,7 @@ app.config(['$routeProvider',
       controller: 'addQuestionCtrl',
     })
     .when('/question/edit/:id', {
-      title: ' questions',
+      title: ' Edit questions',
       templateUrl: 'html/questions/questionEdit.html',
       controller: 'editQuestionCtrl',
     })
