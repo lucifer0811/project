@@ -55,7 +55,7 @@ app.controller('examNewCtrl', function($scope, $modalInstance, $http, Data){
     });
   }
 });
-app.controller('detailExamCtrl', function($scope, $routeParams ,$http, Data){
+app.controller('detailExamCtrl', function($scope, $routeParams , $window, $http, Data){
   $scope.id_exam = $routeParams.id;
 
   Data.get('examies/'+$routeParams.id).then(function(data){
@@ -106,8 +106,15 @@ app.controller('detailExamCtrl', function($scope, $routeParams ,$http, Data){
     });
     if(confirm("Are you sure!!!!")){
       Data.delete('section_questions/'+section_question_id).then(function(result){
-        $scope.section_questions = _.without($scope.section_questions, _.findWhere($scope.section_questions, {id:section_question_id}));
+        var host = $window.location.host;
+        var landingUrl = "http://" + host + "/project/online_exam/#/examies/"+$scope.id_exam+"/show";
+        $window.location.href = landingUrl;
+        //$scope.section_questions = _.without($scope.section_questions, _.findWhere($scope.section_questions, {id:section_question_id}));
       });
     }
   };
+
+  $scope.uploadFile = function(){
+    console.log($scope.myFile);
+  }
 });
