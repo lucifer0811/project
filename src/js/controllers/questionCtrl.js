@@ -19,17 +19,17 @@ app.controller('questionCtrl',[ '$scope', '$filter', 'Data' ,function ($scope, $
     //         }
     //       }
     //     })
-    // };  
+    // };
     $scope.datail = function (question) {
         console.log(question);
-    };  
+    };
     $scope.deleteQuestions = function (question) {
       if(confirm("Are you sure!!!!")){
       Data.put('deleteQuestions',question ).then(function(result){
 
       });
     }
-    };            
+    };
 }])
 app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$location', 'Upload', 'cloudinary', '$filter', 'Data','$window',
   function ($scope, $rootScope, $routeParams, $location, $upload, cloudinary, $filter, Data,$window){
@@ -47,7 +47,7 @@ app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$loc
         $scope.question.answers.push(choice2);
         $scope.question.answers.push(choice3);
         $scope.question.answers.push(choice4);
-    } 
+    }
     var url = null;
     $rootScope.url = "";
     var d = new Date();
@@ -119,10 +119,10 @@ app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$loc
                 }
             });
     };
-    
+
 }])
 app.controller('editQuestionCtrl', ['$scope', '$rootScope', '$stateParams', '$location', '$filter', 'Data','$window',
-  function ($scope, $rootScope, $stateParams, $location,  $filter, Data,$window){ 
+  function ($scope, $rootScope, $stateParams, $location,  $filter, Data,$window){
     $scope.id = $stateParams.id;
     console.log($scope.id);
 
@@ -134,7 +134,7 @@ app.controller('editQuestionCtrl', ['$scope', '$rootScope', '$stateParams', '$lo
       $scope.question.answers = JSON.parse($scope.question.answers);
       $rootScope.photos =  $scope.question.file
     });
-    
+
     // $scope.uploadFiles = function(files){
     //   angular.forEach(files, function(file){
     //     if (file && !file.$error) {
@@ -152,7 +152,7 @@ app.controller('editQuestionCtrl', ['$scope', '$rootScope', '$stateParams', '$lo
     //       }).success(function (data, status, headers, config) {
     //         console.log(data.url);
     //         $rootScope.url = data.url;
-    //         $rootScope.photos = $rootScope.photos || []; 
+    //         $rootScope.photos = $rootScope.photos || [];
     //         data.context = {custom: {photo: $scope.title}};
     //         file.result = data;
     //         $rootScope.photos.push(data);
@@ -194,7 +194,7 @@ app.controller('editQuestionCtrl', ['$scope', '$rootScope', '$stateParams', '$lo
                     console.log(result);
                 }
             });
-        
+
     };
-    
-}]);  
+
+}]);

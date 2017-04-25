@@ -36,7 +36,7 @@ app.service('Data', ['$http', '$location',
                 return results.data;
             });
         };
-        
+
         return obj;
 }]);
 app.factory('album', ['$rootScope', '$resource', 'cloudinary',

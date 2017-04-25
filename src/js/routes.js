@@ -34,6 +34,34 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
               controller: 'addQuestionCtrl',
               templateUrl: 'templates/questions/questionNew.html'
             })
+            .state('categories', {
+              url: '/categories',
+              controller: 'categoryCtrl',
+              templateUrl: 'templates/categories/category.html'
+            })
+            .state('examies', {
+              url: '/examies',
+              controller: 'examCtrl',
+              templateUrl: 'templates/examies/exam.html'
+            })
+            .state('section', {
+              url: '/examies/:id/sections',
+              controller: 'sectionCtrl',
+              templateUrl: 'templates/sections/section.html'
+            })
+            .state('section question', {
+              url: '/section_questions',
+              controller: 'section_questionCtrl'
+            })
+            .state('show', {
+              url: '/examies/:id/show',
+              controller: 'detailExamCtrl',
+              templateUrl: 'templates/examies/detail.html'
+            })
+            .state('Question in Category', {
+              url: '/categories/:id/questions',
+              controller: 'section_questionCtrl'
+            })
             .state('signup', {
               url: '/signup',
               controller: 'signupCtrl',
