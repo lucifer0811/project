@@ -1,4 +1,5 @@
-app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstance, $http, Data){
+app.controller('section_questionCtrl', ['$scope', '$rootScope', '$uibModalInstance', '$http', 'Data',
+  function($scope, $rootScope, $uibModalInstance, $http, Data){
   Data.get('categories').then(function(data){
     $scope.categories = data;
     $scope.category = $scope.categories[1];
@@ -94,7 +95,7 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
       Data.post('section_questions', section_question).then(function(result){
         var x = angular.copy(section_question);
         x.id = result.data;
-        $modalInstance.close(x);
+        $uibModalInstance.close(x);
       });
     }
   }
@@ -117,14 +118,14 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
         Data.post('section_questions', section_question).then(function(result){
             var x = angular.copy(section_question);
             x.id = result.data;
-            $modalInstance.close(x);
+            $uibModalInstance.close(x);
           });
       }
     });
   }
 
   $scope.cancel = function() {
-    $modalInstance.dismiss('Close');
+    $uibModalInstance.dismiss('Close');
   }
 
   $scope.stateChanged = function(q, checked){
@@ -133,4 +134,4 @@ app.controller('section_questionCtrl', function($scope, $rootScope, $modalInstan
     }
     console.log($scope.list_questions_chooes);
   }
-});
+}]);
