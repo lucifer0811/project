@@ -26,7 +26,8 @@
             <td>{{section.name}}</td>
             <td>Time: {{section.time_limit}} (minutes)</td>
             <td>
-              <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteSection(section);"></button>
+              <button type="button" class="btn btn-info" ng-click="edit(section)"><span class="glyphicon glyphicon-pencil"></span></button>
+              <button type="button" class="btn btn-danger" ng-click="deleteSection(section);"><span class="glyphicon glyphicon-trash"></span></button>
               <div class="btn-group question_section" uib-dropdown>
                 <button id="single-button" type="button" class="btn btn-primary" uib-dropdown-toggle ng-disabled="disabled">Question <span class="caret"></span>
                 </button>
