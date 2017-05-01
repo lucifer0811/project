@@ -22,6 +22,24 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
     });
   };
 
+  $scope.edit = function (p,size) {
+    var modalInstance = $uibModal.open({
+      templateUrl: 'templates/examies/edit.html',
+      controller: 'examEditCtrl',
+      size: size,
+      resolve: {
+        item: function () {
+          return p;
+        }
+      }
+    });
+    modalInstance.result.then(function(selectedObject) {
+      p.name = selectedObject.name;
+      p.open_time = selectedObject.open_time;
+      p.close_time = selectedObject.close_time;
+    });
+  };
+
   $scope.deleteExam = function(exam){
     if(confirm("Are you sure!!!!")){
       Data.delete('examies/'+exam.id).then(function(result){
@@ -48,10 +66,37 @@ app.controller('examNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data',
   $scope.addExam = function(exam) {
     Data.post('examies', exam).then(function (result) {
       if(result.status != 'error'){
-          var x = angular.copy(exam);
-          x.save = 'insert';
-          x.id = result.data;
-          $uibModalInstance.close(x);
+        var x = angular.copy(exam);
+        x.save = 'insert';
+        x.id = result.data;
+        $uibModalInstance.close(x);
+      }else{
+        console.log(result);
+      }
+    });
+  }
+}]);
+
+app.controller('examEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data',
+  function ($scope, $uibModalInstance, item, Data){
+  $scope.exam = angular.copy(item);
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('Close');
+  }
+
+  $scope.title = 'Edit Exam';
+  $scope.buttonText = 'Update Exam';
+  var original = item;
+  $scope.isClean = function(){
+    return angular.equals(original, $scope.exam);
+  }
+
+  $scope.saveExam = function(exam) {
+    Data.put('examies/'+exam.id, $scope.exam).then(function (result){
+      if (result.status != 'error'){
+        var x = angular.copy(exam);
+        x.save = 'update';
+        $uibModalInstance.close(x);
       }else{
         console.log(result);
       }

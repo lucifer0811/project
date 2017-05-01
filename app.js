@@ -140,8 +140,16 @@ app.get('/api/examies', function (req,res) {
 app.post('/api/examies', function(req, res){
   req.body.open_time = moment.utc(req.body.open_time).local().format('YYYY MMMM DD h:mm:ss');
   req.body.close_time = moment.utc(req.body.close_time).local().format('YYYY MMMM DD h:mm:ss');
-  console.log(req.body);
   pool.query('insert into exam SET ?',[req.body], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.put('/api/examies/:id', function(req, res){
+  req.body.open_time = moment.utc(req.body.open_time).local().format('YYYY MMMM DD h:mm:ss');
+  req.body.close_time = moment.utc(req.body.close_time).local().format('YYYY MMMM DD h:mm:ss');
+  pool.query('update exam SET ? where id=?',[req.body, req.body.id], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
