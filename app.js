@@ -176,6 +176,13 @@ app.get('/api/examies/:id/sections', function(req, res){
   });
 });
 
+app.put('/api/examies/:exam_id/sections/:id', function(req, res){
+  pool.query('update section set ? where id = ?', [req.body, req.params.id], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
 app.get('/api/examies/:id/question', function(req, res){
   pool.query('SELECT section_question.mark, question.id, question.content FROM section_question INNER JOIN question ON question.id = section_question.question_id where section_id = ?', req.params.id, function(err, rows, fields) {
     if (err) throw err;
