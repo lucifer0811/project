@@ -218,6 +218,20 @@ app.get('/api/section_questions', function(req, res){
   });
 });
 
+app.delete('api/section_questions/:id', function(req, res){
+  pool.query('delete from section_question where id = ?', req.params.id, function(err, rows, fields){
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.get('/api/sections/:id', function(req, res){
+  pool.query('select * from section_question where section_id = ?', req.params.id, function(err, rows, fields){
+    if (err) throw err;
+    res.json(rows);;
+  });
+});
+
 app.post('/api/signup', function (req, res) {
   console.log(req.body);
   pool.query('insert into user SET ?',[req.body], function(err, rows, fields) {

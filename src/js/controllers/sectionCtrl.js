@@ -75,6 +75,12 @@ app.controller('sectionCtrl', ['$scope', '$rootScope', '$stateParams', '$filter'
       Data.delete('examies/'+$stateParams.id+'/sections/'+section.id).then(function(result){
         $scope.sections = _.without($scope.sections, _.findWhere($scope.sections, {id:section.id}));
       });
+      Data.get('sections/'+ section.id ).then(function(data){
+        var section_questions = data;
+        for(var j = 0; j < section_questions.length; j++){
+          Data.delete('section_questions/'+section_questions[j].id).then(function(result){});
+        }
+      });
     }
   };
 
