@@ -6,6 +6,11 @@
   	<span>Open time: <span style="font-size: 18px">{{examies[0].open_time | date:'medium'}}</span></span><br>
   	<span>Close time: <span style="font-size: 18px">{{examies[0].close_time | date:'medium'}}</span></span><br>
   </div>
+
+  <!-- <div style="float: right; padding-right: 270px;">
+    <p>Total of Mark: </p> {{total_mark(examies[0])}}
+  </div> -->
+
 	<div class="content col-xs-12">
 		<div ng-repeat="c in sections track by $index">
       <div class="header_section">
@@ -14,13 +19,17 @@
       </div>
 
 			<div class="row content_section">
-        <table id="table" class="table table-hover table-mc-light-blue">
+        <table id="table" class="table table-hover">
           <tbody ng-repeat="question in c.question track by $index">
             <tr>
               <td>{{$index +1}}</td>
               <td>{{question.content}}</td>
-              <td style="float: right;"><input type="number" class="form-control" ng-blur="getdetails(c, question)" ng-model="question.mark"></td>
-              <td><button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteSectionQuestion(question.id,c.id);"></button></td>
+              <td style="float: right;">
+                <div class="col-xs-6">
+                  <input type="number" class="form-control" ng-blur="getdetails(c, question)" ng-model="question.mark">
+                </div>
+                <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteSectionQuestion(question.id,c.id);"></button>
+              </td>
             </tr>
           </tbody>
         </table>

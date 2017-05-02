@@ -6,12 +6,12 @@
 </div>
 <div class="modal-body">
   <form name="exam_form" class="form-horizontal" role="form" novalidate ng-submit="saveExam(exam)">
-    <div class="form-group">
-      <div class="row">
-        <div class="col-md-2" style="padding-left: 30px;">
-          <label>Name</label>
-        </div>
-        <div class="col-md-9" style="padding-left: 60px;">
+    <div class="row">
+      <div class="col-md-3">
+        <label>Name</label>
+      </div>
+      <div class="col-md-9">
+        <div class="form-group">
           <input type="text" name="name" class="form-control" placeholder="name" ng-model="exam.name">
         </div>
       </div>
