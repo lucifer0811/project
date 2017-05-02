@@ -46,6 +46,20 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
         $scope.examies = _.without($scope.examies, _.findWhere($scope.examies, {id:exam.id}));
       });
     }
+    Data.get('examies/'+exam.id+'/sections').then(function(data){
+      var sections = data;
+      for(var i = 0; i < sections.length; i++){
+        Data.get('sections/'+ sections[i].id ).then(function(data){
+          var section_questions = data;
+          for(var j = 0; j < section_questions.length; j++){
+            Data.delete('section_questions/'+section_questions[j].id).then(function(result){});
+          }
+        });
+      }
+      for(var z = 0; z <sections.length; z++){
+        Data.delete('examies/'+exam.id+'/sections/'+sections[z].id).then(function(result){});
+      }
+    });
   };
 
   $scope.columns = [
