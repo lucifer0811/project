@@ -41,7 +41,7 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
   };
 
   $scope.deleteExam = function(exam){
-    if(confirm("Are you sure!!!!")){
+    if(confirm("Are you sure delete exam")){
       Data.delete('examies/'+exam.id).then(function(result){
         $scope.examies = _.without($scope.examies, _.findWhere($scope.examies, {id:exam.id}));
       });
@@ -93,6 +93,8 @@ app.controller('examNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data',
 
 app.controller('examEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data',
   function ($scope, $uibModalInstance, item, Data){
+  item.open_time = new Date(item.open_time);
+  item.close_time = new Date(item.close_time);
   $scope.exam = angular.copy(item);
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
@@ -138,6 +140,9 @@ app.controller('detailExamCtrl', ['$scope', '$http', '$stateParams', '$routePara
     })
     $scope.sections = data;
   });
+
+  $scope.total_mark = function(exam){
+  }
 
   $scope.getdetails = function(section, question){
     var section_question_id;
