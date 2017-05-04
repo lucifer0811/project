@@ -8,7 +8,7 @@
 <div class="row">
   <table class="table table-striped">
     <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
-    <tr ng-repeat="c in examies">
+    <tr ng-repeat="c in examies.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
       <td><a ui-sref="show({id: c.id})">{{c.name}}</a></td>
       <td>{{c.open_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
       <td>{{c.close_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
@@ -19,4 +19,7 @@
       </td>
     </tr>
   </table>
+  <div class="row" style="text-align: center;">
+    <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></ul>
+  </div>
 </div>

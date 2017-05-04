@@ -3,7 +3,26 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
 
   Data.get('examies').then(function(data){
     $scope.examies = data;
+    $scope.viewby = 5;
+    $scope.totalItems = $scope.examies.length;
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = $scope.viewby;
+    $scope.maxSize = 5;
+
+    $scope.setPage = function(pageNo){
+      $scope.currentPage = pageNo;
+    }
+
+    $scope.pageChanged = function() {
+      console.log('Page changed to: ' + $scope.currentPage);
+    }
+
+    $scope.setItemsPerPage = function(num){
+      $scope.itemsPerPage = num;
+      $scope.currentPage = 1;
+    }
   });
+
 
   $scope.open = function(p, size){
     var modalInstance = $uibModal.open({
