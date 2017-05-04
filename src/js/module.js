@@ -2,8 +2,6 @@ var app = angular.module('RDash', ['ui.bootstrap', 'ui.router', 'ngCookies','ngA
   'ngResource','ngFileUpload','angular-md5'
   ]);
 
-
-
 app.service('Data', ['$http', '$location',
     function ($http, $q, $location) {
 

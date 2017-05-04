@@ -17,6 +17,10 @@
         <button type="button" class="btn btn-danger" ng-click="deleteExam(c);"><span class="glyphicon glyphicon-trash"></span></button>
         <button type="button" class="btn btn-default"><a href="#/examies/{{c.id}}/sections"><span class=""></span>Section</a></button>
       </td>
+      <td>
+        <input type="file" ng-model="student">
+        <button type="button" class="btn btn-default" ng-click="readFile()"><span class="glyphicon glyphicon-upload"></span></button>
+      </td>
     </tr>
   </table>
   <div class="row" style="text-align: center;">

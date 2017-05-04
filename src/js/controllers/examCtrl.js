@@ -85,7 +85,8 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
       {text:"Name",predicate:"name",sortable:true},
       {text:"Time Start",predicate:"open_time",sortable:true},
       {text:"Time Finish",predicate:"close_time",sortable:false},
-      {text:"Action"}
+      {text:"Action"},
+      {text:"Upload Student"}
     ];
 }]);
 
@@ -159,9 +160,6 @@ app.controller('detailExamCtrl', ['$scope', '$http', '$stateParams', '$routePara
     })
     $scope.sections = data;
   });
-
-  $scope.total_mark = function(exam){
-  }
 
   $scope.getdetails = function(section, question){
     var section_question_id;
