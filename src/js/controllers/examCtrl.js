@@ -3,7 +3,26 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
 
   Data.get('examies').then(function(data){
     $scope.examies = data;
+    $scope.viewby = 5;
+    $scope.totalItems = $scope.examies.length;
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = $scope.viewby;
+    $scope.maxSize = 5;
+
+    $scope.setPage = function(pageNo){
+      $scope.currentPage = pageNo;
+    }
+
+    $scope.pageChanged = function() {
+      console.log('Page changed to: ' + $scope.currentPage);
+    }
+
+    $scope.setItemsPerPage = function(num){
+      $scope.itemsPerPage = num;
+      $scope.currentPage = 1;
+    }
   });
+
 
   $scope.open = function(p, size){
     var modalInstance = $uibModal.open({
@@ -22,19 +41,51 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
     });
   };
 
+  $scope.edit = function (p,size) {
+    var modalInstance = $uibModal.open({
+      templateUrl: 'templates/examies/edit.html',
+      controller: 'examEditCtrl',
+      size: size,
+      resolve: {
+        item: function () {
+          return p;
+        }
+      }
+    });
+    modalInstance.result.then(function(selectedObject) {
+      p.name = selectedObject.name;
+      p.open_time = selectedObject.open_time;
+      p.close_time = selectedObject.close_time;
+    });
+  };
+
   $scope.deleteExam = function(exam){
-    if(confirm("Are you sure!!!!")){
+    if(confirm("Are you sure delete exam")){
       Data.delete('examies/'+exam.id).then(function(result){
         $scope.examies = _.without($scope.examies, _.findWhere($scope.examies, {id:exam.id}));
       });
     }
+    Data.get('examies/'+exam.id+'/sections').then(function(data){
+      var sections = data;
+      for(var i = 0; i < sections.length; i++){
+        Data.get('sections/'+ sections[i].id ).then(function(data){
+          var section_questions = data;
+          for(var j = 0; j < section_questions.length; j++){
+            Data.delete('section_questions/'+section_questions[j].id).then(function(result){});
+          }
+        });
+      }
+      for(var z = 0; z <sections.length; z++){
+        Data.delete('examies/'+exam.id+'/sections/'+sections[z].id).then(function(result){});
+      }
+    });
   };
 
   $scope.columns = [
-      {text:"Name",predicate:"name",sortable:true},
-      {text:"Time Start",predicate:"open_time",sortable:true},
-      {text:"Time Finish",predicate:"close_time",sortable:false},
-      {text:"Action"}
+      {text:"Tên",predicate:"name",sortable:true},
+      {text:"Thời gian bắt đầu",predicate:"open_time",sortable:true},
+      {text:"Thời gian kết thúc",predicate:"close_time",sortable:false},
+      {text:"Hành động"}
     ];
 }]);
 
@@ -43,15 +94,44 @@ app.controller('examNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data',
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
   }
-  $scope.title = 'New Exam';
-  $scope.buttonText = 'Add Exam';
+  $scope.title = 'Tạo mới cuộc thi';
+  $scope.buttonText = 'Thêm cuộc thi';
   $scope.addExam = function(exam) {
     Data.post('examies', exam).then(function (result) {
       if(result.status != 'error'){
-          var x = angular.copy(exam);
-          x.save = 'insert';
-          x.id = result.data;
-          $uibModalInstance.close(x);
+        var x = angular.copy(exam);
+        x.save = 'insert';
+        x.id = result.data;
+        $uibModalInstance.close(x);
+      }else{
+        console.log(result);
+      }
+    });
+  }
+}]);
+
+app.controller('examEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data',
+  function ($scope, $uibModalInstance, item, Data){
+  item.open_time = new Date(item.open_time);
+  item.close_time = new Date(item.close_time);
+  $scope.exam = angular.copy(item);
+  $scope.cancel = function() {
+    $uibModalInstance.dismiss('Close');
+  }
+
+  $scope.title = 'Chỉnh sửa cuộc thi';
+  $scope.buttonText = 'Cập nhật';
+  var original = item;
+  $scope.isClean = function(){
+    return angular.equals(original, $scope.exam);
+  }
+
+  $scope.saveExam = function(exam) {
+    Data.put('examies/'+exam.id, $scope.exam).then(function (result){
+      if (result.status != 'error'){
+        var x = angular.copy(exam);
+        x.save = 'update';
+        $uibModalInstance.close(x);
       }else{
         console.log(result);
       }
@@ -79,6 +159,9 @@ app.controller('detailExamCtrl', ['$scope', '$http', '$stateParams', '$routePara
     })
     $scope.sections = data;
   });
+
+  $scope.total_mark = function(exam){
+  }
 
   $scope.getdetails = function(section, question){
     var section_question_id;

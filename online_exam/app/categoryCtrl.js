@@ -1,12 +1,31 @@
-app.controller('categoryCtrl', function ($scope, $modal, $filter, Data) {
+app.controller('categoryCtrl', ['$scope', '$filter', '$uibModal', 'Data',
+  function ($scope, $uibModal, $filter, Data) {
   $scope.category = {};
 
   Data.get('categories').then(function(data){
-      $scope.categories = data;
+    $scope.categories = data;
+    $scope.viewby = 5;
+    $scope.totalItems = $scope.categories.length;
+    $scope.currentPage = 1;
+    $scope.itemsPerPage = $scope.viewby;
+    $scope.maxSize = 5;
+
+    $scope.setPage = function(pageNo){
+      $scope.currentPage = pageNo;
+    }
+
+    $scope.pageChanged = function() {
+      console.log('Page changed to: ' + $scope.currentPage);
+    }
+
+    $scope.setItemsPerPage = function(num){
+      $scope.itemsPerPage = num;
+      $scope.currentPage = 1;
+    }
   });
 
   $scope.edit = function (p,size) {
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'html/categories/categoryEdit.html',
       controller: 'categoryEditCtrl',
       size: size,
@@ -23,7 +42,7 @@ app.controller('categoryCtrl', function ($scope, $modal, $filter, Data) {
   };
 
   $scope.open = function(p, size){
-    var modalInstance = $modal.open({
+    var modalInstance = $uibModal.open({
       templateUrl: 'html/categories/categoryNew.html',
       controller: 'categoryNewCtrl',
       size: size,
@@ -52,12 +71,13 @@ app.controller('categoryCtrl', function ($scope, $modal, $filter, Data) {
     {text:"Descriptions",predicate:"descriptions",sortable:true},
     {text:"Action",predicate:"",sortable:false},
   ];
-});
+}]);
 
-app.controller('categoryEditCtrl', function ($scope, $modalInstance, item, Data){
+app.controller('categoryEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data',
+  function ($scope, $uibModalInstance, item, Data){
   $scope.category = angular.copy(item);
   $scope.cancel = function() {
-    $modalInstance.dismiss('Close');
+    $uibModalInstance.dismiss('Close');
   }
 
   $scope.title = 'Edit Category';
@@ -72,17 +92,18 @@ app.controller('categoryEditCtrl', function ($scope, $modalInstance, item, Data)
       if (result.status != 'error'){
         var x = angular.copy(category);
         x.save = 'update';
-        $modalInstance.close(x);
+        $uibModalInstance.close(x);
       }else{
         console.log(result);
       }
     });
   }
-});
+}]);
 
-app.controller('categoryNewCtrl', function($scope, $modalInstance, $http, Data){
+app.controller('categoryNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data',
+  function($scope, $uibModalInstance, $http, Data){
   $scope.cancel = function() {
-    $modalInstance.dismiss('Close');
+    $uibModalInstance.dismiss('Close');
   }
   $scope.title = 'New Category';
   $scope.buttonText = 'Add Category';
@@ -92,10 +113,10 @@ app.controller('categoryNewCtrl', function($scope, $modalInstance, $http, Data){
           var x = angular.copy(category);
           x.save = 'insert';
           x.id = result.data;
-          $modalInstance.close(x);
+          $uibModalInstance.close(x);
       }else{
         console.log(result);
       }
     });
   }
-});
+}]);

@@ -140,8 +140,16 @@ app.get('/api/examies', function (req,res) {
 app.post('/api/examies', function(req, res){
   req.body.open_time = moment.utc(req.body.open_time).local().format('YYYY MMMM DD h:mm:ss');
   req.body.close_time = moment.utc(req.body.close_time).local().format('YYYY MMMM DD h:mm:ss');
-  console.log(req.body);
   pool.query('insert into exam SET ?',[req.body], function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.put('/api/examies/:id', function(req, res){
+  req.body.open_time = moment.utc(req.body.open_time).local().format('YYYY MMMM DD h:mm:ss');
+  req.body.close_time = moment.utc(req.body.close_time).local().format('YYYY MMMM DD h:mm:ss');
+  pool.query('update exam SET ? where id=?',[req.body, req.body.id], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
@@ -163,6 +171,13 @@ app.get('/api/examies/:id', function(req, res){
 
 app.get('/api/examies/:id/sections', function(req, res){
   pool.query('SELECT * FROM section where exam_id = ?', req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.put('/api/examies/:exam_id/sections/:id', function(req, res){
+  pool.query('update section set ? where id = ?', [req.body, req.params.id], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
@@ -200,6 +215,20 @@ app.get('/api/section_questions', function(req, res){
   pool.query('select * from section_question', function(err, rows, fields){
     if (err) throw err;
     res.json(rows);
+  });
+});
+
+app.delete('api/section_questions/:id', function(req, res){
+  pool.query('delete from section_question where id = ?', req.params.id, function(err, rows, fields){
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.get('/api/sections/:id', function(req, res){
+  pool.query('select * from section_question where section_id = ?', req.params.id, function(err, rows, fields){
+    if (err) throw err;
+    res.json(rows);;
   });
 });
 

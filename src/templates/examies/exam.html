@@ -1,23 +1,25 @@
-<h1>List Exam</h1>
+<h1>Danh sách cuộc thi</h1>
 <div class="row">
   <div class="col-md-3">
-    <button type="button" class="btn btn-success fa fa-plus" ng-click="open(exam)">&nbsp;Exam</button>
+    <button type="button" class="btn btn-success fa fa-plus" ng-click="open(exam)">&nbsp;Cuộc thi</button>
   </div>
 </div>
 <br />
 <div class="row">
-  <div class="col-md-8">
-    <table class="table table-striped">
-      <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
-      <tr ng-repeat="c in examies">
-        <td><a ui-sref="show({id: c.id})">{{c.name}}</a></td>
-        <td>{{c.open_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
-        <td>{{c.close_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
-        <td>
-          <button><a href="#/examies/{{c.id}}/sections">Edit</a></button>
-          <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteExam(c);"></button>
-        </td>
-      </tr>
-    </table>
+  <table class="table table-striped">
+    <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+    <tr ng-repeat="c in examies.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
+      <td><a ui-sref="show({id: c.id})">{{c.name}}</a></td>
+      <td>{{c.open_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+      <td>{{c.close_time | date: "yyyy-MM-dd HH:mm:ss"}}</td>
+      <td>
+        <button type="button" class="btn btn-info" ng-click="edit(c)"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button type="button" class="btn btn-danger" ng-click="deleteExam(c);"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-default"><a href="#/examies/{{c.id}}/sections"><span class=""></span>Section</a></button>
+      </td>
+    </tr>
+  </table>
+  <div class="row" style="text-align: center;">
+    <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></ul>
   </div>
 </div>

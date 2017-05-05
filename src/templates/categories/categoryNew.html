@@ -2,18 +2,32 @@
   <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
 </button>
 <div class="modal-header">
-  <h3 class="modal-title">Category</h3>
+  <h3 class="modal-title">Chủ đề</h3>
 </div>
 <div class="modal-body">
   <form name="product_form" class="form-horizontal" role="form" novalidate ng-submit="addNewCategory(category)" novalidate>
-    <div class="form-group" ng-class="{'has-error' : product_form.name.$invalid}">
-      <label>Name</label>
-      <input type="text" class="form-control" name="name" placeholder="name" ng-model="category.name" required>
-      <p ng-show="product_form.name.$invalid" class="help-block">Category name is required</p>
+    <div ng-class="{'has-error' : product_form.name.$invalid}">
+      <div class="row">
+        <div class="col-md-3">
+          <label>Tên</label>
+        </div>
+        <div class="col-md-9">
+          <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="tên chủ đề" ng-model="category.name" required>
+          </div>
+          <p ng-show="product_form.name.$invalid" class="help-block">Tên chủ đề cần phải có</p>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label>Description</label>
-      <textarea class="form-control" name="descriptions" placeholder="DESCRIPTIONS" ng-model="category.descriptions"></textarea>
+    <div class="row">
+      <div class="col-md-3">
+        <label>Mô tả</label>
+      </div>
+      <div class="col-md-9">
+        <div class="form-group">
+          <textarea class="form-control" name="descriptions" placeholder="mô tả" ng-model="category.descriptions"></textarea>
+        </div>
+      </div>
     </div>
     <div class="space"></div>
     <div class="space-4"></div>
