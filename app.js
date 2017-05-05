@@ -240,6 +240,20 @@ app.post('/api/signup', function (req, res) {
   });
 });
 
+app.get('/api/getByEmail/:email', function (req, res) {
+  pool.query('select * from user  where email = ?',req.params.email, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
+app.get('/api/getById/:id', function (req, res) {
+  pool.query('select * from user  where id = ?',req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+
 app.get('/api/examies/:id/details', function(req, res){
   db_function(get_exam, req, res);
 });
