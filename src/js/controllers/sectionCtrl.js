@@ -71,7 +71,7 @@ app.controller('sectionCtrl', ['$scope', '$rootScope', '$stateParams', '$filter'
   };
 
   $scope.deleteSection = function(section){
-    if(confirm("Are you sure to remove the section")){
+    if(confirm("Bạn có chắc chắn muốn xóa section")){
       Data.delete('examies/'+$stateParams.id+'/sections/'+section.id).then(function(result){
         $scope.sections = _.without($scope.sections, _.findWhere($scope.sections, {id:section.id}));
       });

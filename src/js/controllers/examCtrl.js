@@ -60,7 +60,7 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
   };
 
   $scope.deleteExam = function(exam){
-    if(confirm("Are you sure delete exam")){
+    if(confirm("Bạn có chắc chắn muốn xóa cuộc thi không?")){
       Data.delete('examies/'+exam.id).then(function(result){
         $scope.examies = _.without($scope.examies, _.findWhere($scope.examies, {id:exam.id}));
       });
