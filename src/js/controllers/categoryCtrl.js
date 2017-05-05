@@ -48,9 +48,9 @@ app.controller('categoryCtrl',['$scope', '$uibModal', '$filter', 'Data', functio
   };
 
   $scope.columns = [
-    {text:"Name",predicate:"name",sortable:true},
-    {text:"Descriptions",predicate:"descriptions",sortable:true},
-    {text:"Action",predicate:"",sortable:false},
+    {text:"Tên",predicate:"name",sortable:true},
+    {text:"Mô tả",predicate:"descriptions",sortable:true},
+    {text:"Hành động",predicate:"",sortable:false},
   ];
 }]);
 
@@ -60,8 +60,8 @@ app.controller('categoryEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data
     $uibModalInstance.dismiss('Close');
   }
 
-  $scope.title = 'Edit Category';
-  $scope.buttonText = 'Update Category';
+  $scope.title = 'Chỉnh sửa chủ đề';
+  $scope.buttonText = 'Cập nhật';
   var original = item;
   $scope.isClean = function(){
     return angular.equals(original, $scope.category);
@@ -84,8 +84,8 @@ app.controller('categoryNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
   }
-  $scope.title = 'New Category';
-  $scope.buttonText = 'Add Category';
+  $scope.title = 'Tạo mới chủ đề';
+  $scope.buttonText = 'Thêm chủ đề';
   $scope.addNewCategory = function(category) {
     Data.post('categories', category).then(function (result) {
       if(result.status != 'error'){

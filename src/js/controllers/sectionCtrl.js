@@ -98,8 +98,8 @@ app.controller('sectionEditCtrl', ['$scope', '$rootScope', '$uibModalInstance', 
     $uibModalInstance.dismiss('Close');
   }
 
-  $scope.title = 'Edit Section';
-  $scope.buttonText = 'Update Section';
+  $scope.title = 'Chỉnh sửa section';
+  $scope.buttonText = 'Cập nhật';
   var original = item;
   $scope.isClean = function(){
     return angular.equals(original, $scope.section);
@@ -123,8 +123,8 @@ app.controller('sectionNewCtrl', ['$scope', '$stateParams', '$uibModalInstance',
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
   }
-  $scope.title = 'New Section';
-  $scope.buttonText = 'Add';
+  $scope.title = 'Tạo mới section';
+  $scope.buttonText = 'Thêm';
   $scope.addSection = function(section) {
     section.exam_id = $stateParams.id;
     Data.post('examies/'+$stateParams.id+'/sections', section).then(function (result) {
