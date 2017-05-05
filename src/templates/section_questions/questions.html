@@ -3,11 +3,11 @@
     <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
   </button>
   <div class="modal-header">
-    <h3 class="modal-title">Questions</h3>
+    <h3 class="modal-title">Câu hỏi</h3>
   </div>
   <div class="modal-body" id="modal-body">
     <div class="row select_category">
-      <div class="col-md-3" style="margin-top: 7px;"><p>Category:</p></div>
+      <div class="col-md-3" style="margin-top: 7px;"><p>Chủ đề:</p></div>
       <div class="col-md-9">
         <select class="form-control" ng-model="category"
           ng-options="item.name for item in categories" ng-change="list_question_in_category()">
@@ -15,12 +15,12 @@
       </div>
     </div>
     <div class="row show_question" style="border-bottom: 2px solid #e6e6e6;">
-      <div class="row" style="margin-top: 20px;"><p><span class="glyphicon glyphicon-align-justify"></span>List Questions</p></div>
+      <div class="row" style="margin-top: 20px;"><p><span class="glyphicon glyphicon-align-justify"></span>Danh sách câu hỏi</p></div>
       <table class="table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Choose</th>
+            <th>Tên</th>
+            <th>Chọn</th>
           </tr>
         </thead>
         <tbody ng-repeat="question in questions track by question.id">

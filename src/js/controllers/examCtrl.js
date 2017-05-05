@@ -82,10 +82,10 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
   };
 
   $scope.columns = [
-      {text:"Name",predicate:"name",sortable:true},
-      {text:"Time Start",predicate:"open_time",sortable:true},
-      {text:"Time Finish",predicate:"close_time",sortable:false},
-      {text:"Action"}
+      {text:"Tên",predicate:"name",sortable:true},
+      {text:"Thời gian bắt đầu",predicate:"open_time",sortable:true},
+      {text:"Thời gian kết thúc",predicate:"close_time",sortable:false},
+      {text:"Hành động"}
     ];
 }]);
 
@@ -94,8 +94,8 @@ app.controller('examNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data',
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
   }
-  $scope.title = 'New Exam';
-  $scope.buttonText = 'Add Exam';
+  $scope.title = 'Tạo mới cuộc thi';
+  $scope.buttonText = 'Thêm cuộc thi';
   $scope.addExam = function(exam) {
     Data.post('examies', exam).then(function (result) {
       if(result.status != 'error'){
@@ -119,8 +119,8 @@ app.controller('examEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data',
     $uibModalInstance.dismiss('Close');
   }
 
-  $scope.title = 'Edit Exam';
-  $scope.buttonText = 'Update Exam';
+  $scope.title = 'Chỉnh sửa cuộc thi';
+  $scope.buttonText = 'Cập nhật';
   var original = item;
   $scope.isClean = function(){
     return angular.equals(original, $scope.exam);
