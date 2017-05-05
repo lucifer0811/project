@@ -27,7 +27,7 @@
     <div layout-gt-sm="row">
       <md-input-container class="md-block" flex-gt-sm>
         <label>Content of question</label>
-        <textarea ng-model="question.content" ckeditor="editorOptions"></textarea>
+        <textarea ng-model="question.content" ready="onReady()"></textarea>
       </md-input-container>
     </div>
     <div>
@@ -54,8 +54,7 @@
                 
             </div>
         </div>
-    <div class="file" ng-repeat="file in files">
-      
+    <div>
         <h3>{{file.name}} {{f.$error}} {{f.$errorParam}}</h3>
         <div class="status">{{file.status}}</div>
         <div class="progress-bar">
@@ -64,11 +63,12 @@
         <div class="form_line">
             <div class="form_controls">
                 <div class="preview images_upload">
-                    <img ngf-src="file.result.url || file">
+                    <img src="{{question.file}}">
                 </div>
             </div>
         </div>
     </div>
+
     <div ng-switch="question.type">
       <div ng-switch-when="Match">
         <div ng-repeat="answer in question.answers">
@@ -85,7 +85,6 @@
       </div>
       <div ng-switch-when="Short">
         <h1>Short</h1>
-        
       </div>
       <div ng-switch-when="TF">
         <div ng-repeat="answer in question.answers">
@@ -128,11 +127,6 @@
     </form-element>
     
   </form>
-  
-  
-    
 </div>
-
-<a href="#/photos" class="back_link">Back to list</a>
-  
 </div>
+  
