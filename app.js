@@ -3,7 +3,12 @@ var express = require('express'),
   wait = require('wait.for'),
   moment = require('moment'),
   app = express();
-  //parseXlsx = require('excel'),
+
+var bodyParser = require('body-parser');
+var multer = require('multer');
+
+var xlstojson = require("xls-to-json-lc");
+var xlsxtojson = require("xlsx-to-json-lc");
 
 app.use(cors());
 
@@ -17,10 +22,79 @@ var pool = mysql.createPool({
   database : 'online_exam'
 });
 
-//parseXlsx('Spreadsheet.xlsx', function(err, data) {
-  //if(err) throw err;
-  //console.log("Phan");
-//});
+app.use(bodyParser.json());
+var storage = multer.diskStorage({ //multers disk storage settings
+  destination: function (req, file, cb) {
+    cb(null, './uploads/')
+  },
+  filename: function (req, file, cb) {
+    var datetimestamp = Date.now();
+    cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+  }
+});
+
+var upload = multer({ //multer settings
+  storage: storage,
+  fileFilter : function(req, file, callback) { //file filter
+    if (['xls', 'xlsx'].indexOf(file.originalname.split('.')[file.originalname.split('.').length-1]) === -1) {
+      return callback(new Error('Wrong extension type'));
+    }
+    callback(null, true);
+  }
+}).single('file');
+
+app.post('/upload', function(req, res) {
+    var exceltojson; //Initialization
+    upload(req,res,function(err){
+        if(err){
+             res.json({error_code:1,err_desc:err});
+             return;
+        }
+        /** Multer gives us file info in req.file object */
+        if(!req.file){
+            res.json({error_code:1,err_desc:"No file passed"});
+            return;
+        }
+        //start convert process
+        /** Check the extension of the incoming file and
+         *  use the appropriate module
+         */
+        if(req.file.originalname.split('.')[req.file.originalname.split('.').length-1] === 'xlsx'){
+            exceltojson = xlsxtojson;
+        } else {
+            exceltojson = xlstojson;
+        }
+        try {
+            exceltojson({
+                input: req.file.path, //the same path where we uploaded our file
+                output: null, //since we don't need output.json
+                lowerCaseHeaders:true
+            }, function(err,result){
+                if(err) {
+                    return res.json({error_code:1,err_desc:err, data: null});
+                }
+                student = [];
+                for(var i = 0; i<result.length; i++){
+                  a = {
+                    name: result[i].name,
+                    email: result[i].email
+                  };
+                  values = [
+                    [result[i].name, result[i].email]
+                  ];
+                  var sql = "insert into student (name, email) value ?";
+                  pool.query(sql, [values], function (err1, result1) {
+                    if (err1) throw err1;
+                  });
+                  student.push(a);
+                }
+                return res.redirect('http://localhost:8888/#/examies');
+            });
+        } catch (e){
+          res.json({error_code:1,err_desc:"Corupted excel file"});
+        }
+    });
+});
 
 function db_function(f, req, res){
   wait.launchFiber(f,req,res);
@@ -279,6 +353,10 @@ app.put('/api/section_questions/:id', function(req, res){
    pool.query('UPDATE section_question set ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields){
     res.json(rows);
   });
+});
+
+app.get('/',function(req,res){
+  res.sendFile(__dirname + "/index.html");
 });
 
 app.listen(3000, function () {
