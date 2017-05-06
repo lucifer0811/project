@@ -1,5 +1,5 @@
 var app = angular.module('RDash', ['ui.bootstrap', 'ui.router', 'ngCookies','ngAnimate','ngRoute','cloudinary',
-  'ngResource','ngFileUpload','angular-md5','ckeditor',
+  'ngResource','ngFileUpload','angular-md5',
   ]);
 
 
@@ -113,15 +113,15 @@ app.factory('Session', function($http) {
   var Session = {
     data: {},
     saveSession: function() { /* save session data to db */ },
-    updateSession: function() { 
+    updateSession: function() {
       /* load data from db */
       $http.get('session.json').then(function(r) { return Session.data = r.data;});
     }
   };
   Session.updateSession();
-  return Session; 
+  return Session;
 });
 
- 
+
 
 
