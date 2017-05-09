@@ -1,11 +1,15 @@
 app.controller('sectionCtrl', ['$scope', '$rootScope', '$stateParams', '$filter', '$uibModal', 'Data',
   function($scope, $rootScope, $stateParams ,$filter, $uibModal, Data){
   $scope.id_exam = $stateParams.id;
+
   $rootScope.exam_id_in_page = $stateParams.id;
   $scope.section = {};
 
   Data.get('examies/'+$stateParams.id+'/sections').then(function(data){
     $scope.sections = data;
+    Data.get('examies/'+$scope.id_exam).then(function(data){
+      $scope.exam = data;
+    });
   });
 
   $scope.showAllQuestion = function(p, q, size){
