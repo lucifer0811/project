@@ -80,9 +80,9 @@ app.post('/upload', function(req, res) {
                     email: result[i].email
                   };
                   values = [
-                    [result[i].name, result[i].email]
+                    [result[i].name, result[i].email, 1]
                   ];
-                  var sql = "insert into student (name, email) value ?";
+                  var sql = "insert into student (name, email, user_id) value ?";
                   pool.query(sql, [values], function (err1, result1) {
                     if (err1) throw err1;
                   });
