@@ -89,14 +89,20 @@ app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
     ];
 }]);
 
-app.controller('examNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data',
-  function($scope, $uibModalInstance, $http, Data){
+app.controller('examNewCtrl', ['$scope', '$uibModalInstance', '$cookieStore', '$rootScope', '$http', 'Data',
+  function($scope, $uibModalInstance, $cookieStore, $rootScope, $http, Data){
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
   }
+
+  Data.get('getById/'+ $cookieStore.get("currentUser") ).then(function(result){
+    $scope.currentUser = result[0];
+  });
+
   $scope.title = 'Tạo mới cuộc thi';
   $scope.buttonText = 'Thêm cuộc thi';
   $scope.addExam = function(exam) {
+    exam.user_id = $scope.currentUser.id;
     Data.post('examies', exam).then(function (result) {
       if(result.status != 'error'){
         var x = angular.copy(exam);
