@@ -27,7 +27,10 @@ app.controller('loginCtrl',[ '$scope', '$filter', 'Data' ,'md5','$window','$root
       Data.get('getByEmail/'+ user.email ).then(function(result){
         if(result.status != 'error'){
           if(user.password == result[0].password){
-            $cookieStore.put("currentUser", result[0].id);
+            sessionStorage.id = result[0].id;
+            var host = $window.location.host;
+                  var landingUrl = "http://" + host + "/#";
+                  $window.location.href = landingUrl;
           } else{
             console.log("d");
           }
@@ -49,6 +52,7 @@ app.controller('logoutCtrl',[ '$scope', '$filter', 'Data' ,'md5','$window','$roo
         if(result.status != 'error'){
           user_infor = result[0];
           if(user.password == result[0].password){
+
             $cookieStore.put("currentUser", result[0].firstName);
           } else{
             console.log("d");

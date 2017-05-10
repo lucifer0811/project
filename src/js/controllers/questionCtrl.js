@@ -1,6 +1,24 @@
 app.controller('questionCtrl',[ '$scope', '$filter', 'Data' ,function ($scope, $filter, Data){
     Data.get('questions').then(function(data){
       $scope.questions = data;
+      $scope.viewby = 5;
+      $scope.totalItems = $scope.questions.length;
+      $scope.currentPage = 1;
+      $scope.itemsPerPage = $scope.viewby;
+      $scope.maxSize = 5;
+
+      $scope.setPage = function(pageNo){
+        $scope.currentPage = pageNo;
+      }
+
+      $scope.pageChanged = function() {
+        console.log('Page changed to: ' + $scope.currentPage);
+      }
+
+      $scope.setItemsPerPage = function(num){
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 1;
+      }
     });
 
     $scope.columns = [
@@ -10,7 +28,7 @@ app.controller('questionCtrl',[ '$scope', '$filter', 'Data' ,function ($scope, $
       {text:"",predicate:"content",sortable:true},
     ];
     $scope.deleteQuestions = function (question) {
-      if(confirm("Are you sure!!!!")){
+      if(confirm("Bạn có muốn xóa!!!!")){
       Data.put('deleteQuestions',question ).then(function(result){
         $scope.questions = _.without($scope.questions, _.findWhere($scope.questions, {id:question.id}));
       });
