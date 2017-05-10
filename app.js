@@ -80,7 +80,7 @@ app.post('/upload', function(req, res) {
                     email: result[i].email
                   };
                   values = [
-                    [result[i].name, result[i].email, 1]
+                    [result[i].name, result[i].email, 4]
                   ];
                   var sql = "insert into student (name, email, user_id) value ?";
                   pool.query(sql, [values], function (err1, result1) {
@@ -88,7 +88,7 @@ app.post('/upload', function(req, res) {
                   });
                   student.push(a);
                 }
-                return res.redirect('http://localhost:8888/#/examies');
+                return res.redirect('http://localhost:8888/#/students');
             });
         } catch (e){
           res.json({error_code:1,err_desc:"Corupted excel file"});
@@ -137,6 +137,13 @@ app.get('/api/categories/:id', function (req,res) {
     res.json(rows);
   });
 });
+
+app.get('/api/students', function(req, res){
+  pool.query('select * from student', function(err, students, fields){
+    if (err) throw err;
+    res.json(students);
+  })
+})
 
 app.post('/api/categories', function (req, res) {
   pool.query('insert into category SET ?',[req.body], function(err, rows, fields) {

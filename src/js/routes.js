@@ -24,6 +24,11 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
                 controller: 'questionCtrl',
                 templateUrl: 'templates/questions/question.html'
             })
+            .state('students', {
+                url: '/students',
+                controller: 'studentCtrl',
+                templateUrl: 'templates/students/student.html'
+            })
             .state('edit', {
                 url: '/questions/edit/:id',
                 controller: 'editQuestionCtrl',
