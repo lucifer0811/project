@@ -15,6 +15,8 @@ function MasterCtrl($scope, $cookieStore,$rootScope,$cookieStore,Data) {
         return window.innerWidth;
     };
 
+    console.log(sessionStorage.id);
+
     $scope.$watch($scope.getWidth, function(newValue, oldValue) {
         if (newValue >= mobileView) {
             if (angular.isDefined($cookieStore.get('toggle'))) {
@@ -40,9 +42,10 @@ function MasterCtrl($scope, $cookieStore,$rootScope,$cookieStore,Data) {
     $scope.logout = function(){
         console.log("ss");
         $cookieStore.remove("currentUser");
+        delete sessionStorage.id;
     }
 
-    Data.get('getById/'+ $cookieStore.get("currentUser") ).then(function(result){
+    Data.get('getById/'+ sessionStorage.id).then(function(result){
         if(result.status != 'error'){
           $scope.currentUser = result[0];
         }else{
