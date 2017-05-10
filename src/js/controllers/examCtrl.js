@@ -1,8 +1,18 @@
-app.controller('examCtrl', ['$scope', '$filter', '$uibModal', 'Data',
-  function($scope, $filter, $uibModal, Data){
+app.controller('examCtrl', ['$scope', '$filter', '$uibModal', '$cookieStore', 'Data',
+  function($scope, $filter, $uibModal, $cookieStore, Data){
+
+  Data.get('getById/'+ sessionStorage.id ).then(function(result){
+    $scope.currentUser = result[0];
+  });
 
   Data.get('examies').then(function(data){
-    $scope.examies = data;
+    var list_exam = []
+    for (var i = 0; i <data.length; i++){
+      if (data[i].user_id == $scope.currentUser.id){
+        list_exam.push(data[i]);
+      }
+    }
+    $scope.examies = list_exam;
     $scope.viewby = 5;
     $scope.totalItems = $scope.examies.length;
     $scope.currentPage = 1;
@@ -95,7 +105,7 @@ app.controller('examNewCtrl', ['$scope', '$uibModalInstance', '$cookieStore', '$
     $uibModalInstance.dismiss('Close');
   }
 
-  Data.get('getById/'+ $cookieStore.get("currentUser") ).then(function(result){
+  Data.get('getById/'+ sessionStorage.id ).then(function(result){
     $scope.currentUser = result[0];
   });
 
@@ -130,6 +140,11 @@ app.controller('examEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data',
   var original = item;
   $scope.isClean = function(){
     return angular.equals(original, $scope.exam);
+  }
+
+  $scope.check_time_end = function(){
+    console.log($scope.exam.open_time);
+    console.log($scope.exam.close_time);
   }
 
   $scope.saveExam = function(exam) {
