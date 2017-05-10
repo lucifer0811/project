@@ -1,8 +1,27 @@
-app.controller('categoryCtrl',['$scope', '$uibModal', '$filter', 'Data', function ($scope, $uibModal, $filter, Data) {
+app.controller('categoryCtrl',['$scope', '$uibModal', '$filter', 'Data',
+  function ($scope, $uibModal, $filter, Data) {
   $scope.category = {};
 
   Data.get('categories').then(function(data){
       $scope.categories = data;
+      $scope.viewby = 5;
+      $scope.totalItems = $scope.categories.length;
+      $scope.currentPage = 1;
+      $scope.itemsPerPage = $scope.viewby;
+      $scope.maxSize = 5;
+
+      $scope.setPage = function(pageNo){
+        $scope.currentPage = pageNo;
+      }
+
+      $scope.pageChanged = function() {
+        console.log('Page changed to: ' + $scope.currentPage);
+      }
+
+      $scope.setItemsPerPage = function(num){
+        $scope.itemsPerPage = num;
+        $scope.currentPage = 1;
+      }
   });
 
   $scope.edit = function (p,size) {
@@ -54,7 +73,8 @@ app.controller('categoryCtrl',['$scope', '$uibModal', '$filter', 'Data', functio
   ];
 }]);
 
-app.controller('categoryEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data', function ($scope, $uibModalInstance, item, Data){
+app.controller('categoryEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data',
+  function ($scope, $uibModalInstance, item, Data){
   $scope.category = angular.copy(item);
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
@@ -80,7 +100,8 @@ app.controller('categoryEditCtrl', ['$scope', '$uibModalInstance', 'item', 'Data
   }
 }]);
 
-app.controller('categoryNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data', function($scope, $uibModalInstance, $http, Data){
+app.controller('categoryNewCtrl', ['$scope', '$uibModalInstance', '$http', 'Data',
+  function($scope, $uibModalInstance, $http, Data){
   $scope.cancel = function() {
     $uibModalInstance.dismiss('Close');
   }

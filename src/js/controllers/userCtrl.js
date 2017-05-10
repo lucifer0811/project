@@ -60,26 +60,3 @@ app.controller('logoutCtrl',[ '$scope', '$filter', 'Data' ,'md5','$window','$roo
    }
 
 }])
-
-app.controller('changePassCtrl',[ '$scope', '$filter', 'Data' ,'md5','$window','$rootScope','$cookieStore',
-  function ($scope, $filter, Data,md5,$window,$rootScope,$cookieStore){
-    $scope.changePass = function (){
-      old_pass = md5.createHash($scope.old_password);
-      new_pass = md5.createHash($scope.new_password);
-      console.log(old_pass);
-      Data.get('getById/'+ $cookieStore.get("currentUser") ).then(function(result){
-        if(result.status != 'error'){
-          $scope.currentUser = result[0];
-          if(old_pass == result[0].password)
-          console.log($scope.currentUser);
-        }else{
-          console.log(result);
-        }
-      });
-   }
-}])
-
-app.controller('profileCtrl',[ '$scope', '$filter', 'Data' ,'md5','$window','$rootScope','$cookieStore',
-  function ($scope, $filter, Data,md5,$window,$rootScope,$cookieStore){
-    
-}])
