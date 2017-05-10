@@ -101,12 +101,12 @@
               <div ng-show="currentUser == null" >
                   <div>
                     <a ui-sref="login" class="dropdown-toggle" uib-dropdown-toggle>
-                      Login
+                      Đăng nhập
                     </a>
                   </div>
                   <div>
                     <a ui-sref="signup" class="dropdown-toggle" uib-dropdown-toggle>
-                      SignUp
+                      Đăng ký
                     </a>
                   </div>
               </div>
@@ -122,11 +122,16 @@
                     </li>
                     <li class="divider"></li>
                     <li class="link">
-                      <a href="#">
-                        Profile
+                      <a ui-sref="profile">
+                        Thông tin cá nhân
                       </a>
                     </li>
                     <li class="link">
+                      <a >
+                        Thay đổi mật khẩu
+                      </a>
+                    </li>
+                   <!--  <li class="link">
                       <a href="#">
                         Menu Item
                       </a>
@@ -135,11 +140,11 @@
                       <a href="#">
                         Menu Item
                       </a>
-                    </li>
+                    </li> -->
                     <li class="divider"></li>
                     <li class="link">
                       <a href="#" ng-click="logout()">
-                        Logout
+                        Đăng xuất
                       </a>
                     </li>
                   </ul>

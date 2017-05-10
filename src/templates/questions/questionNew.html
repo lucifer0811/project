@@ -7,13 +7,12 @@
   </div>
 </div>
 <div class="modal-body">
-  <div ng-if="question.id == null">
+  <div>
     <form>
       Pick a topic:
-      <input type="radio" ng-model="question.type" value="Short">Short Answers
-      <input type="radio" ng-model="question.type" value="Match">Match Answers
-      <input type="radio" ng-model="question.type" value="TF">True/False Answers
-      <input type="radio" ng-model="question.type" value="MulChoose">MultipleChoose
+      <input type="radio" ng-model="question.type" value="FillWord">Câu hỏi điền từ
+      <input type="radio" ng-model="question.type" value="TF">Câu hỏi đúng sai
+      <input type="radio" ng-model="question.type" value="MulChoose">Câu hỏi lựa chọn
     </form>
   </div>
   
@@ -37,7 +36,7 @@
       <select class="form-control select_question" id="category" name="category" ng-model="question.category_id">
 
         <option ng-repeat="category in categories" ng-selected="question.category_id == category.id " value="{{category.id}}" >{{category.name}}</option>
-                  </select>
+      </select>
 
     </div>
     
@@ -74,34 +73,24 @@
         </div>
     </div>
     <div ng-switch="question.type">
-      <div ng-switch-when="Match">
-        <div ng-repeat="answer in question.answers">
+      <div ng-switch-when="FillWord">
+        <div>
           <div layout-gt-sm="">
             <md-input-container class="md-block " flex-gt-sm>
-              <label>Đáp án {{ $index + 1 }}</label>
-              <input ng-model="answer.content">
+              <label>Đáp án </label>
+              <input class="col-xs-12" ng-model="question.answers.content">
             </md-input-container>
-            <md-input-container class="md-block " flex-gt-sm>
-              <input ng-model="answer.content_match">
-            </md-input-container>
+            
           </div>
         </div>
       </div>
-      <div ng-switch-when="Short">
-        <h1>Short</h1>
-        
-      </div>
       <div ng-switch-when="TF">
-        <div ng-repeat="answer in question.answers">
+        <div>
           <div layout-gt-sm="">
-            <md-input-container class="md-block " flex-gt-sm>
-              <label> {{ $index + 1 }}</label>
-              <input ng-model="answer.content">
-            </md-input-container>
 
             <md-input-container class="md-block " flex-gt-sm>
-              <input type="radio" ng-model="answer.tf" value="1">True
-              <input type="radio" ng-model="answer.tf" value="0">False
+              <input type="radio" ng-model="question.answers.tf" value="1">True
+              <input type="radio" ng-model="question.answers.tf" value="0">False
             </md-input-container>
           </div>
         </div>

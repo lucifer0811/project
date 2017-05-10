@@ -45,7 +45,6 @@ function MasterCtrl($scope, $cookieStore,$rootScope,$cookieStore,Data) {
     Data.get('getById/'+ $cookieStore.get("currentUser") ).then(function(result){
         if(result.status != 'error'){
           $scope.currentUser = result[0];
-          console.log($scope.currentUser);
         }else{
           console.log(result);
         }
