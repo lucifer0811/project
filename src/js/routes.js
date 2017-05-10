@@ -72,6 +72,16 @@ angular.module('RDash').config(['$stateProvider', '$urlRouterProvider',
               controller: 'loginCtrl',
               templateUrl: 'templates/user/login.html'
             })
+            .state('changePass', {
+              url: '/changePass',
+              controller: 'changePassCtrl',
+              templateUrl: 'templates/user/changePass.html'
+            })
+            .state('profile', {
+              url: '/profile',
+              controller: 'profileCtrl',
+              templateUrl: 'templates/user/profile.html'
+            })
             ;
     }
 ]);

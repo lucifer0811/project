@@ -4,7 +4,7 @@
 
 <div class="modal-header">
   <div ng-if="question.id == null" flex="20" layout="column">
-    <h3 class="modal-title">Add question</h3>
+    <h3 class="modal-title">Thêm câu hỏi mới</h3>
   </div>
   <div ng-if="question.id != null" flex="20" layout="column">
     <h3 class="modal-title">Edit question</h3>
@@ -13,11 +13,11 @@
 <div class="modal-body">
   <div ng-if="question.id == null">
     <form>
-      Pick a topic:
-      <input type="radio" ng-model="question.type" value="Short">Short Answers
-      <input type="radio" ng-model="question.type" value="Match">Match Answers
-      <input type="radio" ng-model="question.type" value="TF">True/False Answers
-      <input type="radio" ng-model="question.type" value="MulChoose">MultipleChoose
+      Chọn 1 kiểu câu hỏi:
+      <input type="radio" ng-model="question.type" value="Short">Câu hỏi điền từ
+      <!-- <input type="radio" ng-model="question.type" value="Match">Match Answers -->
+      <input type="radio" ng-model="question.type" value="TF">Câu hỏi đúng sai
+      <input type="radio" ng-model="question.type" value="MulChoose">Câu hỏi lựa chọn
     </form>
   </div>
   <div ng-switch="question.type">
