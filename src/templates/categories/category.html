@@ -8,7 +8,7 @@
   <div class="col-md-8">
     <table class="table table-striped">
       <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
-      <tr ng-repeat="c in categories">
+      <tr ng-repeat="c in categories.slice(((currentPage-1)*itemsPerPage), ((currentPage)*itemsPerPage))">
         <td>{{c.name}}</td>
         <td>{{c.descriptions}}</td>
         <td>
@@ -19,5 +19,8 @@
         </td>
       </tr>
     </table>
+    <div class="row" style="text-align: center;">
+      <ul uib-pagination total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()" class="pagination-sm" items-per-page="itemsPerPage"></ul>
+    </div>
   </div>
 </div>
