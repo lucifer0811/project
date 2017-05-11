@@ -116,8 +116,11 @@
               <div ng-show="currentUser != null" >
                 <div class="item dropdown pull-right" uib-dropdown>
                   <a href="#" class="dropdown-toggle" uib-dropdown-toggle>
-                    <img class="avatar" src="img/avatar.jpg"
-                      style="width: 30px; height: 30px;">
+                    <img class="avatar" src="{{currentUser.avartar}}"
+                      style="width: 45px;
+    height: 45px;
+    margin-right: 15px;
+    margin-top: 7px;">
                   </a>
                   <ul class="dropdown-menu dropdown-menu-right">
                     <li class="dropdown-header">
@@ -130,7 +133,7 @@
                       </a>
                     </li>
                     <li class="link">
-                      <a >
+                      <a ui-sref="changePass">
                         Thay đổi mật khẩu
                       </a>
                     </li>

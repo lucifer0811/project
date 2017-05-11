@@ -153,7 +153,7 @@ app.post('/api/categories', function (req, res) {
 });
 
 app.get('/api/questions', function (req,res) {
-  pool.query('SELECT question.id,question.title,  question.content, question.answers, question.type, category.name   FROM question INNER JOIN category ON question.category_id = category.id ', function(err, rows, fields) {
+  pool.query('SELECT question.id,question.title,  question.content, question.answers, question.type, category.name   FROM question INNER JOIN category ON question.category_id = category.id ORDER BY question.id;', function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
@@ -330,6 +330,12 @@ app.get('/api/getByEmail/:email', function (req, res) {
 
 app.get('/api/getById/:id', function (req, res) {
   pool.query('select * from user  where id = ?',req.params.id, function(err, rows, fields) {
+    if (err) throw err;
+    res.json(rows);
+  });
+});
+app.put('/api/updateUser', function (req, res) {
+  pool.query('UPDATE user SET ? WHERE id = ?',[req.body , req.body.id], function(err, rows, fields) {
     if (err) throw err;
     res.json(rows);
   });
