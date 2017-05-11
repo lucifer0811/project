@@ -22,7 +22,7 @@ app.controller('questionCtrl',[ '$scope', '$filter', 'Data' ,function ($scope, $
     });
 
     $scope.columns = [
-      {text:"#",predicate:"ID",sortable:true},
+      {text:"#",predicate:"STT",sortable:true},
       {text:"Title",predicate:"title",sortable:true},
       {text:"Category",predicate:"category",sortable:true},
       {text:"",predicate:"content",sortable:true},
@@ -42,23 +42,24 @@ app.controller('addQuestionCtrl', ['$scope', '$rootScope', '$routeParams', '$loc
         $scope.categories = data;
     });
    $scope.question = {};
-    if($scope.question.type = "MulChoose"){
-      $scope.question.answers = [];
-        var choice1 = {"id" : 1};
-        var choice2 = {"id" : 2};
-        var choice3 = {"id" : 3};
-        var choice4 = {"id" : 4};
+    
+    if($scope.question.type == "TF"){
+      $scope.question.answers = {};
+    } 
+    if(
+      $scope.question.type == "FillWord"){
+        $scope.question.answers = {};
+    } 
+    $scope.question.type = "MulChoose";
+     $scope.question.answers = [];
+        var choice1 = {"id" : 1,"grade":100};
+        var choice2 = {"id" : 2,"grade":0};
+        var choice3 = {"id" : 3,"grade":0};
+        var choice4 = {"id" : 4,"grade":0};
         $scope.question.answers.push(choice1);
         $scope.question.answers.push(choice2);
         $scope.question.answers.push(choice3);
         $scope.question.answers.push(choice4);
-    } 
-    if($scope.question.type = "TF"){
-      $scope.question.answers = {};
-    } 
-    if($scope.question.type = "FillWord"){
-        $scope.question.answers = {};
-    } 
     var url = null;
     $rootScope.url = "";
     var d = new Date();

@@ -43,6 +43,7 @@ function MasterCtrl($scope, $cookieStore,$rootScope,$cookieStore,Data) {
         console.log("ss");
         $cookieStore.remove("currentUser");
         delete sessionStorage.id;
+        window.location.reload(); 
     }
 
     Data.get('getById/'+ sessionStorage.id).then(function(result){

@@ -4,9 +4,9 @@
 
 angular
     .module('RDash')
-    .controller('AlertsCtrl', ['$scope', AlertsCtrl]);
+    .controller('AlertsCtrl', ['$scope', 'Data', AlertsCtrl]);
 
-function AlertsCtrl($scope) {
+function AlertsCtrl($scope, Data) {
     $scope.alerts = [{
         type: 'success',
         msg: 'Thanks for visiting! Feel free to create pull requests to improve the dashboard!'
@@ -24,4 +24,11 @@ function AlertsCtrl($scope) {
     $scope.closeAlert = function(index) {
         $scope.alerts.splice(index, 1);
     };
+
+    // Data.get('categories').then(function(data){
+    //     $scope.categories = data;
+    // }
+    // Data.get('questions').then(function(data){
+    //   $scope.questions = data;
+    // }
 }
